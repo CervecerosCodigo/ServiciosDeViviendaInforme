@@ -39,12 +39,12 @@ public class FilLeser {
             Soknad.setTeller(in.readInt());
             Kontrakt.setTeller(in.readInt());
 
-            c = (MainController) in.readObject();//FIXME: Kaster classNotFound
+            c = (MainController) in.readObject();
 
             in.close();
 
 
-        } catch (IOException e) {//FIXME: trenger en felles plass for å fange opp de
+        } catch (IOException e) {
             System.out.println(e.fillInStackTrace());
         } catch (ClassNotFoundException e) {
             System.out.println(e.fillInStackTrace());
