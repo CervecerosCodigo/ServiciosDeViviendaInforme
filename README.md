@@ -23,12 +23,13 @@ Det som man trenger er:
   * titlepic
   * a4wide
   * listings
-Se i *Rapport.tex* for komplett definisjon av alle pakker som brukes
+  
+Se i **Rapport.tex** for komplett definisjon av alle pakker som brukes
 
 ##Mac
 Har ingen erfaring men [her finnes noen tips](http://guides.macrumors.com/Installing_LaTeX_on_a_Mac).
 Det skal være mulig å installere Kile på Mac, men hvis det er mye jobb så finnes det LaTeX plugin til Eclipse eller [følgende editorer](https://discussions.apple.com/message/18653515#18653515).
 
 #Struktur
-Rapporten består av *Rapport.tex* i denne inkluderes underfiler, for tilfedet er det *Fremside.tex* og ekesempelfil *Bruksanvisning.tex*. Allt her er også lagret som et Kile prosjekt så hvis man tar en *clone* så kan prosjektet åpnes direkte i Kile som det er. 
-Bilder og kode finnes i respektive *./img/* samt *./kode/* i disse skal det være *en mappe per kapitel*, det er også tankten at vi skal oprette en ny *.tex fil per kapitel. Hvis det blir for "grovt" så kan vi jobbe med en fil per seksjon.
+Rapporten består av **Rapport.tex** i denne inkluderes underfiler, for tilfedet er det **Fremside.tex** og ekesempelfil **Bruksanvisning.tex**. Allt her er også lagret som et Kile prosjekt så hvis man tar en **clone** så kan prosjektet åpnes direkte i Kile som det er. 
+Bilder og kode finnes i respektive **./img/** samt **./kode/** i disse skal det være **en mappe per kapitel**, det er også tankten at vi skal oprette en ny *.tex fil per kapitel. Hvis det blir for "grovt" så kan vi jobbe med en fil per seksjon.
