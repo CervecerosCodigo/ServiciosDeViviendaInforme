@@ -1,0 +1,1 @@
+Skriver litt her for å teste dersom jeg kan bare kjøre push på orogin til rigin eller hvis jeg må bruke origin rapport.
