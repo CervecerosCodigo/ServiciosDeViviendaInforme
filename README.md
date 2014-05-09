@@ -3,6 +3,9 @@ Rapport
 
 Rapport for ServiciosDeVivienda, prosjektoppgave i programutvikling - HiOA
 
+##Rapportstruktur
+Strukturen i rapporten er definiert i [følgende fil](https://docs.google.com/document/d/1F9SR3I25yFMPApa8F2xsuQjYgwtAkmtV-niFmDJDfmk/edit?usp=sharing)
+
 Rapporten skrives i LaTeX fordi
 * Vi sparer tid
 * Eksepel over kode blir lagt til i tekst og formatert
