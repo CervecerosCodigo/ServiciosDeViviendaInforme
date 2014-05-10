@@ -1,0 +1,12 @@
+\section{Utfordringer}
+Under prosjektets gang har vi støtt på mange utfordringer, hvis vi skal skrive ned alle så kan det resultere i at listen blir lengre enn selve rapporten. Vi har derfor valgt til å avgrense oss til de mest frekvente og de som gav oss størst bekymringer. 
+
+\subsection{Kontrollerhierarki}
+I MVC modellen dersom man hånderer utveklsing av data mellom en kontroller og en gui klasse kan det normalt håndteres av en matode i GUI klassen som tar i mot en lytter som en parameter fra controlleren. Situasjonen blir noe annerledes dersom man bruker kontrollere i flere nivåer der gui klassen lyttes av gjennom en kontroller som deretter sender data opp til en overliggende kontroller i hierarkien. Slik utfordring har vi løst gjennom bruk av lytter interface som implementeres av alle disse klasser. Dersom lytterinterface "< går av "> vil det blir opfattett feks mellom sub-kontroller og top-kontroller. Utfordringen med den løsningen at koden blir fort ganske kompleks trots at den bli ganske så modulerbar.
+\subsection{Serialisering}
+\subsection{Tabellmodell}
+\subsection{\emph{Layout} managere}
+\subsection{Konflikter i GIT}
+\subsection{Objektreferanser}
+\subsection{\emph{Swing} og portabilitet}
+\subsection{Genereiske metoder og klasser}
