@@ -1,5 +1,61 @@
 \section{Brukergrensesnitt \emph{(View)}} \label{sec:brukergrensesnitt}
-I \emph{MainController.java} instansieres først to Arkfaner, \emph{ArkfaneMegler.java} og \emph{ArkfaneAnnonse.java}.
-Disse sendes så med som parametere inn i strukturen til brukergrensesnittet, først til \emph{StartGUI.java}, så videre til \emph{MainPanel.java} som oppretter \emph{JTabbedPane} og legger inn de to arkfanene der.
-Grunnen til at arkfanene ble opprettet allerede i \emph{MainController.java} er fordi vi sender med det respektive arkfane under instansiering av \emph{Kontrollerne}.
 
+\subsection{Oppstart av brukergrensesnittet}
+I \emph{MainController.java} instansieres først to Arkfaner, \emph{ArkfaneMegler.java} og \emph{ArkfaneAnnonse.java}.
+Disse sendes så med som parametere inn i strukturen til brukergrensesnittet, først til \emph{StartGUI.java}, og så videre til \emph{MainPanel.java} som oppretter \emph{JTabbedPane} og legger inn de to arkfanene der.
+Grunnen til at arkfanene ble opprettet allerede i \emph{MainController.java} er fordi vi sender med det respektive arkfane under instansiering av \emph{Kontrollerne}. 
+Siden de to arkfanene har så lik funksjonalitet, deler de på \emph{Kontrollerne} som de har felles.
+
+Fra \emph{MainController.java} opprettes det to versjoner av \emph{ControllerTabell.java}. Til den ene sendes vinduet \emph{meglerVindu} som er instans av \emph{ArkfaneMegler.java} og til den andre kontrollerinstansen sendes \emph{annonseVindu} som er instans av \emph{ArkfaneAnnonse.java}.
+Se illustrasjonen nedenfor.
+\begin{figure}[ht]
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{./img/produktdokumentasjon/bilder/Controller_og_GUI-opprettelse2.png}
+\caption{Illustrasjon over hvordan \emph{MainController} starter opp programmet}
+\end{figure}
+
+\subsection{Bruk av arv i brukergrensesnittet}
+Brukergrensesnitt er utrolig tidkrevende å jobbe med, og veldig mye av det man gjør er å skrive samme kode for hvert enkelt vindu.
+For å unngå dette mest mulig, samt å få alle vinduer og paneler til å ha mest mulig den samme følelsen har vi noen abstrakte klasser som vi arver på tvers av alle klassene som har med brukergrensesnitt å gjøre.
+
+\subsubsection*{\emph{AbstractPanel.java}}
+Dette panelet arver \emph{JPanel} og er superklassen til alle andre hovedvinduer og paneler i programmet.
+Denne klassen har to \emph{konstruktører}. Den ene tar inn to heltall som representerer bredde og høyde på det panelet som arver klassen, samt en \emph{String borderTitle} som blir tittel på kantlinjen som \emph{konstruktøren} oppretter.
+Den andre \emph{konstruktøren} er omtrent lik, men tar ikke inn en \emph{String} for kantlinje, så her kan man velge mellom to \emph{konstruktører}, med eller uten kantlinje.
+Dette panelet er også satt med en bakgrunnsfarge slik at alle paneler og vinduer som arver denne vil arve denne.
+
+\emph{CustomSubPanel.java} arver også \emph{AbstractPanel.java}. Denne klassen brukes i hovedsak for paneler inne i et hovedpanel. Da dette panelet skal brukes gjentatte ganger i mange forskjellige sammenhenger er det hele 6 \emph{konstruktører} her. 
+I noen opprettes det en predefinert \emph{Layout}, i andre ikke. Noen tar inn størrelse (bredde og høyde), andre ikke. På denne måten har vi fått en veldig slagkraftig klasse som har spart oss for mye arbeid og forenklet konstruksjonen av brukergrensesnitter veldig.
+
+\subsubsection*{\emph{AbstractRegistreringsVindu.java} og \emph{AbstractRegistreringsPanel,java}}
+\emph{AbstractRegistreringsVindu.java} er superklassen for \emph{AbstractRegistreringsPanel.java}. Denne klassen arver \emph{JFrame} og er setter de mest generelle parameterne som et hvert vindu skal ha. Størrelse, navn på vinduet, samt standard lukkefunksjonalitet osv.
+\emph{AbstractRegistreringsPanel.java} er superklassen til alle registreringsvinduene. Denne klassen har en \emph{BorderLayout} og tar inn parametere som bredde, høyde og tittel for vinduet som opprettes. Ut over dette gjør ikke denne klassen mye. Alle klasser som arver denne vil velge hvilke paneler fra denne klassens \emph{BorderLayout} de ønsker å ta i bruk.
+
+\subsection{Oppbyggningen av arkfanene}
+Begge arkfanene er bygget over samme lest. De arver \emph{AbstraktArkfane.java}. Denne klassen tar inn en \emph{String} som avgjør hvilke \emph{topPanel} som skal følge med arkfanen.
+\emph{AbstraktArkfane.java} består i korte trekk av en \emph{BorderLayout} med fire paneler; \emph{toppanel, venstrepanel, senterpanel} og \emph{bunnpanel}.
+Hvert av panelene er satt opp med en \emph{get-metode} som brukes hyppig av \emph{kontrollerne} i kommunikasjonen med komponentene der.
+
+Alle \emph{kontrollerne} er "klar" over sitt vindu, og nedenfor e noen eksempler på hvordan \emph{ControllerTabell.java} kommuniserer med vinduet.
+
+\begin{lstlisting}[caption=Kodeeksempel på hvordan \emph{ControllerTabell.java} kommuniserer med brukergrensesnittet]
+        /**
+         * Lytter på museklikk i Output-vinduet.
+         */
+        vindu.getSenterpanel().getEditorPane().addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (modellIBruk instanceof TabellModellAnnonse) {
+                        Annonse valgtObjekt = returnerAnnonseObjekt();
+                        if (vindu instanceof ArkfaneMegler) {
+                            new ControllerBildeViser(valgtObjekt.getBolig(), true);
+                        } else {
+                            new ControllerBildeViser(valgtObjekt.getBolig(), false);
+                        }
+                    }
+                }
+            }
+
+        });
+\end{lstlisting}

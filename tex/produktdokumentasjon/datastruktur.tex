@@ -13,6 +13,24 @@ Alle objektklassene implementerer \emph{interfacet Searchable} som vi har utvikl
 \subsubsection{Bolig-objekt}
 Klassen \emph{Bolig.java} er \emph{abstrakt} og har to subklasser; \emph{Leilighet} og \emph{Enebolig}. Grunnet begrensning i tid har vi ikke valgt å implementere flere typer boliger enn dette.
 Boligobjektene har også en variabel \emph{erUtleid}. Om en bolig er utleid vil ikke den kunne slettes fra datasettet \emph{boligliste}.
-Det er også en variabel som definerer en filsti til bilder av boligen. 
+Det er også en variabel som definerer en filsti til bilder av boligen. Informasjon om denne funksjonaliteten kan man lese mer om her \ref{sec:bilder}.
+
+\subsubsection{Person-objekt}
+Klassen \emph{Person.java} er abstrakt og har som \emph{Bolig.java} også subklasser; \emph{Utleier.java, Leietaker.java} og \emph{Megler.java}.
+Det er ikke implementert all funksjonalitet man gjerne skulle ønske seg på disse klassene. Megler-klassen har ikke noe registreringsvindu. Det er hardkodet en megler for å kunne vise funksjonaliteten med pålogging til \emph{meglerVindu}, men det er lagt større vekt på å få \emph{Leietaker} og \emph{Utleier} godt implementert da det er disse som skal behandles i annonser, søknader osv.
+
+\subsubsection{Annonse-objekt}
+Annonseobjektet består i hovedsak av et Bolig-objekt pluss noen egne felter for utleierpris, depositum, utleiers krav til leietaker osv.
+Det er her også noen \emph{Calendar}-variable som er tiltenkt bruk ved fremtidig utvidelse av programmet. \emph{'datoAnnonseRegistrert'} og \emph{'datoAnnonseTasAvNett'} vil kunne gi megler veldig mange muligheter for å lage statistikk på hvor lenger en annonse har vært på nett før den leies ut osv. 
+
+\subsubsection{Søknad-objekt}
+En søknad består av et annonseobjekt og et leietakerobjekt, samt en søknadsID og to \emph{boolske} variabler for om søknaden er behandlet og godkjent.
+Det er lagt opp til at mange søknader på samme annonse kan havne i megler sin liste over innkomne søknader. Søknadene sorteres da først synkende på kolonnen \emph{erBehandlet}, og så stigende på kolonnen \emph{annonseID}.
+I det én søknad blir godkjent av megler så vil alle andre søknader automatisk bli markert som "behandlet" og som "ikke godkjent". 
+Det er foreløpig ikke implementert en tilbakemeldingsfunksjon til boligsøkerne om deres søknader er godkjent eller avslått, men det ligger det selvfølgelig til rette for.
+
+\subsubsection{Kontrakt-objekt}
+En Kontrakt opprettes automatisk i det en søknad godkjennes. Annonseobjektet, Meglerobjektet og Leietakerobjektet, samt info om leiepris, depositum og dato kontrakten ble inngått er hoveddelene i kontrakten, og denne informasjonen kan ikke slettes eller endres. 
+Optimalt sett skulle vi hatt en utskriftsvennlig versjon av en slik kontrakt, men det er ikke funnet tid til dette. 
 
 
