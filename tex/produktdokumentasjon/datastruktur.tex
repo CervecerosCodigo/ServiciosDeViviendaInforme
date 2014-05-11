@@ -1,1 +1,18 @@
-\section{Datastruktur \emph{(Model)}}
+\section{Datastruktur \emph{(Model)}} \label{sec:Datastruktur}
+
+\subsection{Valg av datastruktur}
+Alle dataregisterne er laget på \emph{HashSet} fra \emph{Collection}-rammeverket til \emph{Java}. Vi har brukt \emph{HashSet} for å unngå dobbellagring av like objekter. Vi har overridet \emph{equals} og \emph{hashcode}-metodene for objektene slik at de bare relevante datafelter brukes for å identifisere hva som er et unikt objekt og ikke. For eksempel så er det autoinkrementerte ID-feltet som gir alle objekter en unik ID, utelatt fra \emph{equals} og \emph{hashcode} da alle objekter da ville bli oppfattt som unike objekter.
+Videre har vi ikke hatt bruk for sortering av dataene våre. Alle datasett blir sortert når de vises i tabellen.
+
+I pakken \emph{register} ligger selve registerne som igjen inneholder hver sitt \emph{HashSet}. Alle registerklassene arver \emph{Register.java} som har en del generiske metoder som fungerer på alle \emph{HashSettene} og deres objekter.
+
+\subsection{Objekt-klassene}
+Alle objektene, \emph{Person, Bolig, Annonse, Søknad}, og \emph{Kontrakt} har hver sin statiske teller som tildeles hvert objekt som opprettes. Bolig-objektene har teller fra 20000 til 29999. Annonse fra 30000 til 39999 osv.
+Alle objektklassene implementerer \emph{interfacet Searchable} som vi har utviklet selv. dette \emph{interfacet} har en metode som heter \emph{toString} som returnerer et \emph{array av String-elementer}. Denne metoden definerer hva som skal inngå i fritekstsøket som beskrives mer her \ref{sec:sok} på side \pageref{sec:sok}.
+
+\subsubsection{Bolig-objekt}
+Klassen \emph{Bolig.java} er \emph{abstrakt} og har to subklasser; \emph{Leilighet} og \emph{Enebolig}. Grunnet begrensning i tid har vi ikke valgt å implementere flere typer boliger enn dette.
+Boligobjektene har også en variabel \emph{erUtleid}. Om en bolig er utleid vil ikke den kunne slettes fra datasettet \emph{boligliste}.
+Det er også en variabel som definerer en filsti til bilder av boligen. 
+
+
