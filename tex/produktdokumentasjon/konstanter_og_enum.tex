@@ -1,2 +1,41 @@
 \section{Konstanter og Enum}
-Det er brukt konstakter og flere enum typer i programmet, disse finner man i \texttt{lib} pakken. Konstanter er brukt i form av publike static variabler som er tigjenegelige for tvers over hele programmet. Eksepel på dette er regex konstanter og konstanter som f.eks. b rukes til å sette opp størrelse på GUI komponenter som vinduer eller teksfelt. Enum er brukt der vi ønsker å ha mulighet til å identifisere en klassevariabel isteden for å teste f.eks. på en streng hvilket kan være ganske inneffektivt. Eksempel på dette er data i en ikke editerbar komboboks. Dersom vi fyller komboboksen med enumtyper kan vi direkte teste på hva som returneres til kontrollern fra gui isteden for å ta opp å bruke \texttt{equals()} metoden. 
+Det er brukt konstakter og flere enum typer i programmet, disse finner man i \texttt{lib} pakken. Konstanter er brukt i form av publike static variabler som er tigjenegelige for tvers over hele programmet. Eksepel på dette er regex konstanter og konstanter som f.eks. b rukes til å sette opp størrelse på GUI komponenter som vinduer eller teksfelt. Enum er brukt der vi ønsker å ha mulighet til å identifisere en klassevariabel isteden for å teste f.eks. på en streng hvilket kan være ganske inneffektivt. Eksempel på dette er data i en ikke editerbar komboboks. Dersom vi fyller komboboksen med enumtyper kan vi direkte teste på hva som returneres til kontrollern fra gui isteden for å ta opp å bruke \texttt{equals()} metoden. Enum gir oss også muligheten til å eventuelt implementere metoder direkte i en enum klasse som i sin tur foreta eventuelle beregniger. 
+
+\subsection{RegexTester.java}
+Denne klassen er satt sammen med hensikt å definere alle regext tester som foretas i programmet (oftest ved inhentning av data lagt inn fra bruker). Klassen består av publike regex konstanter som kan etter behov hentes opp av metoder som har innebygget regex funksjonalitet men kun behøver en definisjonsstreng med regex mønster. Et godt eksepel på dette er \texttt{CustomJTextField}. Den andre delen av programmet er boolean metoder som "<speiler"> alle regex konstanter og foretar et test på valgt regex kosntant og mottatt tekstreng som en parameter. 
+I eksempel \ref{kode:regex1} presenteres en regex streng som brukes til å kontrolleren en gateadress som må begynne med en sotr bokstav, kan bestå opp til tre ord, deretter må avsluttes med et nummer som består mellom et til tre tall som kan blir etterfølgt av blankt steg og en bokstav som betegner en trappeoppgang.
+
+\begin{lstlisting}[caption=Regexstreng for gateadresse og husnummer.,label=kode:regex1]
+	public static final String GATE_ADRESSE = "^[A-ZÆØÅ]{1}[a-zæøå]{1,20}[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s][1-9]{1}[0-9]{0,2}?[\\s]?[A-ZÆØÅ]{0,1}$";
+\end{lstlisting}
+
+Eksempel \ref{kode:regex2} presenteres privat metoden som bruker java
+sin interne regex metode for å foreta test på mønsteret. Metoden blir kalt opp fra interna klasser som er spesiallaget for hver av regex konstantene (se neste eksempel).
+
+\begin{lstlisting}[caption=Private regex test metode., label=kode:regex2]
+	private static boolean patternMatchOK(String input, String regex) {
+        try {
+            erTestOK = input.matches(regex);
+        } catch (PatternSyntaxException e) {
+            System.out.println("Regex xception: input = " + input + " regex = " + regex);
+        }
+        return erTestOK;
+  	}
+\end{lstlisting}
+
+
+I neste eksempel \ref{kode:regex3} vises eksepel på en av metodene som brukes til hver og enkelt definiert regex konstant. Følgende metoder brukes ofte i kontrollene som et andre trinn før et nytt objekt oprettes og leggs til i registeret (første testet blir normalt foretatt i CustomJLabel). Ettersom metoden er \texttt{static} trenger ingen man ikke initialisering av et objekt der metoden skal brukes. 
+
+
+\begin{lstlisting}[caption=Static regex metode til tilhørende regex møsnter streng., label=kode:regex3]
+    public static boolean testGateadresse(String gateAdresse) {
+        return patternMatchOK(gateAdresse, GATE_ADRESSE);
+    }
+\end{lstlisting}
+
+
+\subsection{Konstatnter.java}
+
+\subsection{GUI konstanter}
+
+\subsection{Enum}
