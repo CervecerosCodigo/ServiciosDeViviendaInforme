@@ -1,1 +1,5 @@
-\section{Brukergrensesnitt \emph{(View)}}
+\section{Brukergrensesnitt \emph{(View)}} \label{sec:brukergrensesnitt}
+I \emph{MainController.java} instansieres først to Arkfaner, \emph{ArkfaneMegler.java} og \emph{ArkfaneAnnonse.java}.
+Disse sendes så med som parametere inn i strukturen til brukergrensesnittet, først til \emph{StartGUI.java}, så videre til \emph{MainPanel.java} som oppretter \emph{JTabbedPane} og legger inn de to arkfanene der.
+Grunnen til at arkfanene ble opprettet allerede i \emph{MainController.java} er fordi vi sender med det respektive arkfane under instansiering av \emph{Kontrollerne}.
+
