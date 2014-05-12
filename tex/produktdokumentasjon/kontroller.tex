@@ -1,6 +1,21 @@
 \section{Kontroller \texttt{(Controller)}} \label{sec:kontroller}
 
 \subsection{Generelt om kontrollermiljøet}
-\subsection{Hovedkontrollerne}
+Da prosjektet startet var vi fornøyd med én \texttt{kontroller} og kalte den \texttt{MainController.java}. Det viste seg ganske raskt at den ville kunne bli enormt stor, så da endte vi opp med å dele den opp i flere deler. Siden den gang har vi besluttet at vi like godt kunne ha én \texttt{kontroller} til hvert vindu, og kanskje noen uten tilhørende vinduer også.
+\texttt{MainController} instansierer alle \texttt{hovedkontrollerne}, bortsett fra \texttt{BunnController} som instansieres fra \texttt{ControllerTabell} og \texttt{ControllerOutput} som ikke instansieres. Den har bare statiske metoder som tar i mot diverse data og viser dem i \texttt{JEditorPane} formatert som \texttt{HTML}.
+
+Det er et eget avsnitt i dette kapitelet vedrørende lyttefunksjonaliten vi har implementert for å kunne kommunisere mellom de forskjellige \texttt{kontrollerne} .
+Den første delen av prosjektet var ikke \texttt{JTable}-implementasjonen vår veldig god og vi kunne ikke benytte oss av å teste hvilket datasett som var satt i tabellen. Dermed endte vi opp med å bruke identifikatorer for dette. Først med \texttt{konstanter} og så \texttt{Enum} som identifiserte personobjekter, boligobjektet osv.
+Vi måtte derfor implementere \texttt{Interface}-lyttere som lyttet på når et nytt ny \texttt{ArrayList} var satt i tabellen blant annet.
+Siden det har tabellen kommet skikkelig på plass og det går nå an å teste hvilken type objekter som ligger i tabellen. Dermed har vi til dels begynt å teste på tabellens \texttt{getModel()}-metode for å finne instansen av datasettet.
+Siden vi likevel var veldig  stolte av løsningen vår med \texttt{interface}-lyttere har vi valgt å beholde noe av implementasjonen og vil derfor ha et eget delkapittel for dette her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}.
+
+
+\subsection{Hovedkontrollerne} \
+\texttt{Hovedkontrollerne} er betegnelsen på klassene \texttt{MainController.java, ControllerTabell.java, ControllerOutput.java, ControllerBunnPanel.java, ControllerToppPanelMegler.java} og \texttt{ControllerToppPanelAnnonse.java}.
+
+
 \subsection{Kontrollerne for registreringsvinduene} \label{sec:regkontrollere}
+
+
 \subsection{Lyttere mellom ulike komponenter i programmet} \label{sec:kontrollerlyttere}
