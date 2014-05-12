@@ -64,7 +64,7 @@ Fritekstsøk blir gjennomført på en av regsitrene som brukeren velger, f.eks. 
     }
 \end{lstlisting}
 
-\subsection{Annonsefilter}
+\subsection{Annonsefilter} \label{sec:annonsesok}
 I seksjonen følger en beskrivelse av \emph{AnnonseFilter.java}. Kontruktøren til klassen tar i mot et HashSet over annonse objekter (\emph{HashSet<Annonse>}). Klassen internt jobber med tre HashSet som brukes mellom filtreringstrinn hvilke blir satt i konstruktøren, se eksempel \ref{kode:annonsefilterkostn}. \emph{annonseListeTmp} brukes mellom filtreringstrinn og \emph{annonseListeFiltrert} blir brukt til ferdigfiltrerte resultat.  
 
 \begin{lstlisting}[caption=AnnonseFilter.java: Konstruktør, label=kode:annonsefilterkostn]
