@@ -103,12 +103,329 @@ Vår implementasjon er for så vidt litt annerledes enn en del av eksemplene en 
 I prosessen har vi endret tabellens datastruktur to ganger. Først ble det blant annet brukt en \texttt{array}, men da den er vanskelig å slette fra uten mye ekstra prosessering så endte vi opp med en \texttt{ArrayList} som datastruktur. Da vår tabell skal liste ett objekt per linje, så valgte vi ikke å bruke en flerdimensjonal \texttt{array}. 
 
 Metoden \texttt{settOppTabellLyttere} gjør litt mer enn bare å sette opp \texttt{lyttere}. Først initialiserer den \texttt{ControllerBunnPanel.java} sin private \texttt{lytteklasse}. \\
+Videre kalles metoden \texttt{settOpplyttereForPopupMenyITabell} som definerer funksjonaliteten til \texttt{PopupMenu} når en høyreklikker i tabellen. Les mer om den på \ref{sec:interaktivitettabell}, på side \pageref{sec:interaktivitettabell}. \\
+Metoden kobler så tabellen og popupmenyen sammen via tabellens \texttt{setComponentPopUpMenu}-metode, før den initialiserer slettefunksjonalitet i tabellen når en bruker \texttt{Delete}-knappen på tastaturet. Se eksempel:
 
+
+\begin{lstlisting}[caption=Slettefunksjonalitet i tabellen ved å trykke Delete på tastaturet]
+        inputMap = tabell.getInputMap(JTable.WHEN_FOCUSED);
+        actionMap = tabell.getActionMap();
+
+        Action sletteknappFunksjon = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generellSletteMetodeSomKallerOppRettSletteMetode();
+            }
+        };
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "Slett");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "Slett");
+        actionMap.put("Slett", sletteknappFunksjon);
+\end{lstlisting}
+
+
+Metoden som kalles opp \texttt{generellSletteMetodeSomKallerOppRettSletteMetode} kaller igjen på den rette metoden som faktisk utfører slettingen. Det er tre slettemetoder i \texttt{kontrolleren}; \texttt{slettPerson, slettBolig} og \texttt{slettAnnonse}.
+
+Metoden er nå kommet for å initialisere diverse lyttere. De vil vises med eksempler. Først ut er tabellens funksjonalitet for å oppfatte hvilken rad som er valgt, og deretter kalle på metoden \texttt{sendObjektFraTabellTilOutput}. Det vil si at hver gang en ny linje velges i tabellen så kjøres denne \texttt{sendObjektFraTabellTilOutput}-metoden, som plukker opp hvilken type objekt som er valgt og sende det til output-vinduet. 
+
+\begin{lstlisting}[caption=Lytteren som finner valgt rad i tabellen]
+
+        tabell.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+                if (e.getValueIsAdjusting()) {
+                    return;
+                }
+                try {
+                    int rad = tabell.getSelectedRow();
+                    if (rad > -1) {
+                        rad = tabell.convertRowIndexToModel(rad);
+
+                        //Lagrer raden i en variabel, som brukes i andre metoder.
+                        valgtRadItabell = rad;
+                        sendObjektFraTabellTilOutput(objekttype);
+                    }
+
+                } catch (ArrayIndexOutOfBoundsException aiobe) {
+                    System.out.println("Tabell ConvertRowIndexToModel ArrayIndexOufOfBounds");
+                } catch (IndexOutOfBoundsException iobe) {
+                    System.out.println("Tabell ConvertRowIndexToModel IndexOufOfBounds");
+                }
+            }
+        });
+\end{lstlisting}
+
+De resterende \texttt{lytterne} vil bli dekket i avsnittet om interaktivitet i tabellen \ref{sec:interaktivitettabell}, på side \pageref{sec:interaktivitettabell}.
 
 
 \subsubsection{Beskrivelse av tabellens oppsett, virkemåte og formatering} \label{sec:virkemåtetabell}
+
+En \texttt{JTable} kan implementeres på forskjellige måter. Ofte holder det med å implementere en \texttt{DefaultTableModel}, men i vårt tilfelle der vi har forskjellige typer objekter som krever forskjellige kolonnenavn så har vi valgt å la klassen \texttt{TabellModell.java} arve \texttt{DefaultTableModel} og override de metodene vi har behov for. Videre så vil subklassene til \texttt{TabellModell.java}, som \texttt{TabellModellAnnonse.java} spesifisere hvilke kolonnenavn man har i det datasettet, samt hvilke felter i et annonseobjekt som skal hentes til hvilken kolonne. 
+
+Klassen \texttt{VenstrePanel.java} hvor tabellen instansieres er også der man finner noe av tabellens utvidete funksjonalitet.\\
+
+Metoden \texttt{settCelleRenderer} definerer hvordan spesifikke celler i tabellen skal formateres. Her er det bare definert én regel og det er for behandlede \texttt{Søknadsobjekter}. Metoden finner ut hvilken \texttt{TabellModell} som er i bruk, og så tester den kolonnen "Er behandlet" (nummer 2 i \texttt{TabellModellAnnonse.java} om søknaden er behandlet eller ikke. er den behandlet skal cellen "dimmes" ned. Metoden gjengis i sin helhet her:
+
+\begin{lstlisting}[caption=Metoden \texttt{settCelleRenderer} fra \texttt{VenstrePanel.java}]
+    public void settCelleRenderer() {
+
+        tabell.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable tabell, Object verdi, boolean erValgt, boolean harFokus, int rad, int kolonne) {
+                TabellModell modell = (TabellModell) tabell.getModel();
+
+                Component c = super.getTableCellRendererComponent(tabell, verdi, erValgt, harFokus, rad, kolonne);
+                if (modell instanceof TabellModellSoknad) {
+                    if (tabell.getValueAt(rad, 2).equals("Ja")) {
+                        c.setForeground(new Color(200, 200, 200));
+                    } else {
+                        c.setForeground(Color.BLACK);
+                    }
+                }
+                c.repaint();
+                return c;
+            }
+
+        });
+
+    }//End method
+\end{lstlisting}
+
+Metoden \texttt{resizeKolonneBredde} kalles opp hver gang et nytt datasett er lagt inn i tabellens modell. Metoden består av to \texttt{for-løkker} inne i hverandre som itererer gjennom alle cellene i tabellen. For hver kolonne så finner metoden den cellen som "bruker mest plass" og setter kolonnebredden til det.
+Metoden er gjengitt i sin helhet her:
+\begin{lstlisting}[caption=Metoden \texttt{resizeKolonneBredde} fra klassen \texttt{VenstrePanel.java}]
+    public void resizeKolonneBredde() {
+        TableColumnModel kolonneModell = tabell.getColumnModel();
+        Component comp = null;
+        TableCellRenderer renderer = null;
+
+        for (int kol = 0; kol < tabell.getColumnCount(); kol++) {
+            int bredde = 50; //minste bredde
+            for (int rad = 0; rad < tabell.getRowCount(); rad++) {
+                renderer = tabell.getCellRenderer(rad, kol);
+                comp = tabell.prepareRenderer(renderer, rad, kol);
+                bredde = Math.max(comp.getPreferredSize().width, bredde);
+            }
+            kolonneModell.getColumn(kol).setPreferredWidth(bredde);
+        }
+    }
+\end{lstlisting}
+
+Metoden \texttt{sorterTabellVedOppstart} definerer en sorteringsrekkefølge på tabellens første kolonne, slik at tabellen alltid er sortert på ID-feltet til gjeldene objekt. \\
+Metoden \texttt{sorterTabellSoknadData} gjelder bare for \texttt{Søknadobjekter} i \texttt{TabellModellSoknad.java}. Denne sorterer først synkende på kolonnen "Er behandlet", og deretter på ID-kolonnen. Man vil da alltid ha ubehandlede søknader liggende øverst i tabellen, sortert innad på AnnonseID. 
+
+Hvilken av disse sorteringsmetodene som tas i bruk bestemmes metoden \texttt{settInnDataITabell} i \texttt{ControllerTabell.java}.\\
+Metoden tar inn et datasett i form av \texttt{HashSet} eller \texttt{ArrayList}, samt en \texttt{Enum}-variabel som identifiserer hvilken \texttt{radioknapp} som er valgt i søkepanelet i enten \texttt{TopPanelMegler.java} eller \texttt{TopPanelAnnonse.java}. Metoden har en \texttt{switch/case} på \texttt{Enum}-variabelen og utfører så de instuksjoner som er gjeldende for det datasettet som skal inn i tabellen.
+Hele metoden er gjengitt her:
+
+\begin{lstlisting}[caption=Metoden \texttt{settInnDataITabell} i \texttt{ControllerTabell.java}]
+
+    public void settInnDataITabell(Collection innkommendeDatasett, ObjektType objekttypeEnum) {
+
+        if (innkommendeDatasett.size() > 0) {
+            tabellData = new ArrayList<>();
+            Iterator<?> iter = innkommendeDatasett.iterator();
+            while (iter.hasNext()) {
+                tabellData.add(iter.next());
+            }
+
+            try {
+                switch (objekttypeEnum) {
+                    case PERSONOBJ:
+                        this.objekttype = ObjektType.PERSONOBJ;
+                        tabellModellPerson.fyllTabellMedInnhold(tabellData);
+                        tabell.setModel(tabellModellPerson);
+                        tabellModellPerson.fireTableStructureChanged();
+                        modellIBruk = tabellModellPerson;
+                        vindu.getVenstrepanel().sorterTabellVedOppstart();
+                        break;
+                    case BOLIGOBJ:
+                        this.objekttype = ObjektType.BOLIGOBJ;
+                        tabellModellBolig.fyllTabellMedInnhold(tabellData);
+                        tabell.setModel(tabellModellBolig);
+                        tabellModellBolig.fireTableStructureChanged();
+                        modellIBruk = tabellModellBolig;
+                        vindu.getVenstrepanel().sorterTabellVedOppstart();
+                        break;
+                    case ANNONSEOBJ:
+                        this.objekttype = ObjektType.ANNONSEOBJ;
+                        tabellModellAnnonse.fyllTabellMedInnhold(tabellData);
+                        tabell.setModel(tabellModellAnnonse);
+                        tabellModellAnnonse.fireTableStructureChanged();
+                        tabell.getColumnModel().getColumn(2).setCellRenderer(vindu.getVenstrepanel().settHoyrestilltFormateringPaaTabell());
+                        tabell.getColumnModel().getColumn(3).setCellRenderer(vindu.getVenstrepanel().settHoyrestilltFormateringPaaTabell());
+                        modellIBruk = tabellModellAnnonse;
+                        vindu.getVenstrepanel().sorterTabellVedOppstart();
+                        break;
+                    case KONTRAKTOBJ:
+                        this.objekttype = ObjektType.KONTRAKTOBJ;
+                        tabellModellKontrakt.fyllTabellMedInnhold(tabellData);
+                        tabell.setModel(tabellModellKontrakt);
+                        tabellModellKontrakt.fireTableStructureChanged();
+                        modellIBruk = tabellModellKontrakt;
+                        vindu.getVenstrepanel().sorterTabellVedOppstart();
+                        break;
+                    case SOKNADSOBJ:
+                        this.objekttype = ObjektType.SOKNADSOBJ;
+                        tabellModellSoknad.fyllTabellMedInnhold(tabellData);
+                        tabell.setModel(tabellModellSoknad);
+                        tabellModellSoknad.fireTableStructureChanged();
+                        modellIBruk = tabellModellSoknad;
+                        vindu.getVenstrepanel().sorterTabellSoknadData();
+                        break;
+                }
+                vindu.getVenstrepanel().resizeKolonneBredde();
+                vindu.getVenstrepanel().settCelleRenderer();
+                bunnController.settOppTabellData(modellIBruk);
+
+            } catch (ArrayIndexOutOfBoundsException aiobe) {
+                System.out.println("settInnDataITabell gir ArrayOutOfBounds ved innlegging av nytt datasett");
+            } catch (NullPointerException npe) {
+                System.out.println("settInnDataITabell gir NullPointer ved innlegging av nytt datasett");
+            }//End Try/Catch
+
+        }//End If datasett > 0
+    }//End Metodet settInnDataITabell
+        
+\end{lstlisting}
+
+Som man ser av metoden ovenfor så er det en del instruksjoner som gjøres for hvert datasett, men også noen unike for det enkelte datasett. Feks så ser man at \texttt{Søknadsobjektene} sorteres med den tidligere metoden for den typen objekter. Til slutt i metoden så kjøres "resize"-metoden og formateringsmetoden. 
+
 \subsubsection{\texttt{Muselyttere} og interaktivitet i tabellen} \label{sec:interaktivitettabell}
-\subsubsection{\texttt{Lytter} på klikk i \texttt{Output}-vinduet} \label{sec:lyttetoutputvindu}
+
+De resterende \texttt{lytterne} er forskjellige "muse-\texttt{lyttere}, som responderer på enkeltklikk, dobbelklikk og høyreklikk i tabellen.
+
+
+\texttt{Lytteren} som følger nå er laget for å gi ekstra funksjonalitet til annonsene. Det vil si at for annonser med flere bilder kan man klikke hvor som helst i output-vinduet og få opp en bildeviser og blå gjennom disse bildene. Denne bildefunksjonaliteten er beskrevet mer her \ref{sec:bilder}, på side \pageref{sec:bilder}.
+
+\texttt{Lytteren} differensierer på om en er i annonsevinduet eller i meglervinduet. Er man i annonsevinduet så åpnes bildeviseren med den konstruktøren som ikke gir mulighet for å slette eller endre bildene. I meglervinduet kan man det.
+
+\begin{lstlisting}[caption=\texttt{Lytter} for museklikk i output-vinduet]
+        vindu.getSenterpanel().getEditorPane().addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (modellIBruk instanceof TabellModellAnnonse) {
+                        Annonse valgtObjekt = returnerAnnonseObjekt();
+                        if (vindu instanceof ArkfaneMegler) {
+                            new ControllerBildeViser(valgtObjekt.getBolig(), true);
+                        } else {
+                            new ControllerBildeViser(valgtObjekt.getBolig(), false);
+                        }
+                    }
+                }
+            }
+
+        });
+
+\end{lstlisting}
+
+
+Den følgende \texttt{lytteren} som settes opp er del av tabellen sin \texttt{MouseAdapter}-implementasjon på lik linje som den som følger etter denne. \\
+\texttt{mouseClicked}-hendelsen når en dobbelklikker på en rad i tabellen vil starte opp registreringsvinduet for det valgte objektet og fylle ut all informasjon om objektet ut fra det som allerede er registrert. Så kan man endre objektet og trykk OK for å oppdatere objektet. \\
+Eksempelet nedenfor dekker bare \texttt{Bolig}-objekter. Det settes en \texttt{lytter} på \texttt{kontrolleren} til registreringsvinduet som er koblet til \texttt{actionPerformed}-metoden til vinduet. I det man trykker OK så vil metoden \texttt{oppdaterTabellEtterEndring} kalles og den den tilhørende \texttt{TabellModell} vil oppdateres. Det vil si at tabellens innhold vil oppdatere seg med den nye endringer. Det forutsetter at man har rett \texttt{TabellModell} valgt. Feks så kan en ikke stå i \texttt{TabellModellPerson} og så opp endringene for en ny bolig som ble lagt til. 
+Tabellens \texttt{TabellModeller} vil diskuteres i avsnittet \ref{sec:virkemåtetabell}, på side \pageref{sec:virkemåtetabell}.
+
+\begin{lstlisting}[caption=Hendelse ved dobbelklikking på et objekt i tabellen]
+			@Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (e.getClickCount() == 2) {
+
+                    if (tabellModellBolig.equals((TabellModell) tabell.getModel())) {
+                        ControllerRegistrerBolig cont = new ControllerRegistrerBolig(boligliste, 				 returnerBoligObjekt());
+                        cont.settTabellOppdateringsLytter(new TabellFireDataChangedInterface() {
+
+                            @Override
+                            public void oppdaterTabellEtterEndring() {
+                                tabellModellBolig.fireTableDataChanged();
+                            }
+                        });
+                    }
+\end{lstlisting}
+
+
+Den siste lytteren i metoden \texttt{settOppTabellLyttere} er \texttt{mouseReleased}-funksjonen på høyremuseknapp.
+Det vil si når man høyreklikker i tabellen så vil en popupmeny dukke frem. De menyvalgene som dukker frem er avhengige av hvilket datasett man jobber på. Feks så kan man ikke høyreklikke på en annonse og så opp "Ny Bolig".
+
+Det første uttdraget fra koden gjelder for hvilket menyvalg som er tilgjenglig når en høyreklikker på en boligobjekt og et personobjekt. 
+Det andre utdraget vil være fra metoden \texttt{settOpplyttereForTabellMenyITabell} som spesifiserer fuksjonaliteten til selve menyvalgene i popupmenyen.
+
+\begin{lstlisting}[caption=Eksempel på hvilke menyvalg som dukker opp ved høyreklikk i tabellen]
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+
+                    //Tømmer menyen før den tegnes på nytt.
+                    tabellMeny.removeAll();
+
+                    try {
+                        if (tabellModellBolig.equals((TabellModell) tabell.getModel())) {
+                            tabellMeny.add(menyvalgBolig);
+                            menyvalgBolig.add(menyvalgEndreBolig);
+                            menyvalgBolig.add(menyvalgSlettBolig);
+                            menyvalgBolig.add(menyvalgPubliserToggle);
+
+                        } else if (tabellModellPerson.equals((TabellModell) tabell.getModel())) {
+                            tabellMeny.add(menyvalgPerson);
+                            tabellMeny.add(menyvalgBolig);
+                            menyvalgPerson.add(menyvalgNyPerson);
+                            menyvalgPerson.add(menyvalgEndrePerson);
+                            menyvalgPerson.add(menyvalgSlettPerson);
+                            if (returnerPersonObjekt() instanceof Utleier) {
+                                menyvalgBolig.add(menyvalgNyBolig);
+                            }
+
+                        }
+\end{lstlisting} 
+
+Og så eksempelet på funksjonaliteten til to av menyvalgene i popupmenyen.
+\begin{lstlisting}[caption=Funksjonalitet for to av popupmenyens valg]
+
+    public void settOpplyttereForPopupMenyITabell() {
+
+        //Man ser bare dette valget om man høyreklikker på en utleier i tabellen
+        menyvalgNyBolig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Person valgtObjekt = returnerPersonObjekt();
+                if (valgtObjekt instanceof Utleier) {
+                    ControllerRegistrerBolig cont = new ControllerRegistrerBolig(boligliste, (Utleier) valgtObjekt);
+                    cont.settTabellOppdateringsLytter(new TabellFireDataChangedInterface() {
+                        @Override
+                        public void oppdaterTabellEtterEndring() {
+                            tabellModellPerson.fireTableDataChanged();
+                        }
+                    });
+                }
+            }
+        });
+
+        //Endre bolig
+        menyvalgEndreBolig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Bolig bolig = returnerBoligObjekt();
+                if (bolig != null) {
+                    ControllerRegistrerBolig cont = new ControllerRegistrerBolig(boligliste, bolig);
+                    cont.settTabellOppdateringsLytter(new TabellFireDataChangedInterface() {
+                        @Override
+                        public void oppdaterTabellEtterEndring() {
+                            tabellModellPerson.fireTableDataChanged();
+                        }
+                    });
+                }
+            }
+
+        });
+
+\end{lstlisting}
+
+
 
 \subsection{Kontrollerne for registreringsvinduene} \label{sec:regkontrollere}
 
@@ -116,4 +433,51 @@ Metoden \texttt{settOppTabellLyttere} gjør litt mer enn bare å sette opp \text
 \subsection{Andre kontrollere}
 
 
-\subsection{Lyttere mellom ulike komponenter i programmet} \label{sec:kontrollerlyttere}
+\subsection{Lyttere mellom ulike \texttt{kontrollere} i programmet} \label{sec:kontrollerlyttere}
+
+\texttt{Kontrollerne} er i hovedsak uavhengig av hverandre. Det vil si at \texttt{ControllerTabell.java} ikke kan kontakte \texttt{ControllerToppPanelMegler.java} direkte. Selv om denne problematikken i akkurat dette tilfelle kunne løses ved bruk av å teste på tabellens \texttt{getModel}-metode og finne ut hvilken data som ligger i tabellen, så har vi tatt vare på denne implementasjonen som ble brukt før vi hadde en solid tabell-implementasjon.
+
+Det finnes flere eksempler som fungerer på tilsvarende måter andre steder i programmet, men det er lettest å visualisere dette eksempelet.
+
+Målet er altså at i det øyeblikket et søk blir gjort i \texttt{ToppPanelet} så skal resultatet sendes til \texttt{ControllerTabell.java} for å settes inn i rett \texttt{TabellModell}.
+Vi har et \texttt{interface} som heter \texttt{ListListenerInterface.java} som har to metoder. Den ene metoden tar i mot en \texttt{ArrayList} og et \texttt{Enum}-objekt.
+
+\texttt{ControllerToppPanelAnnonse.java} har en metode som dette:
+
+\begin{lstlisting}[caption=Kodesnutt nummer 1: \texttt{setListListener}-metoden fra \texttt{ControllerToppPanelAnnonse.java}]
+    public void setListListener(ListListenerInterface listListener) {
+        this.listListener = listListener;
+    }
+\end{lstlisting}
+
+Metoden blir kalt opp allerede i \texttt{konstruktøren} til \texttt{MainController.java} under oppstart av programmet, via denne instruksjonen:
+
+\begin{lstlisting}[caption=Kodesnutt nummer 2: Setter lytter fra \texttt{MainController.java}]
+        toppPanelControllerAnnonse.setListListener(new ListListenerInterface() {
+
+            @Override
+            public void listReady(ArrayList liste, ObjektType obj) {
+                //Brukes ikke her
+            }
+
+            @Override
+            public void listReady(HashSet liste, ObjektType objekttype) {
+                tabellControllerAnnonse.tomTabellOgKlargjorForNyttDatasett();
+                tabellControllerAnnonse.settInnDataITabell(liste, objekttype);
+                liste.clear();
+            }
+        });
+\end{lstlisting}
+
+Foreløpig er det ikke en fungerende løsning. I \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java} så ligger følgende instruksjon helt til slutt:
+\begin{lstlisting}[caption=Kodesnutt nummer 3: Utdrag fra \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java}]
+
+            else if (listListener != null) {
+                listListener.listReady(sokeResultat, radioTypeValgt);
+            }
+\end{lstlisting}
+
+Det som skjer nå er at hver gang det blir gjort et søk så kalles \texttt{lytteren listListener} sin \texttt{listReady}-funksjon opp, der det sendes med søkeresultatet og en identifikator på hvilken type objekter som finnes i søkeresultatet.\\
+Hvis man ser på kodesnutt nummer 2, så er det her det nå kommer inn et datasett fra \texttt{Toppanelet} og det sendes da videre til rett metode i \texttt{ControllerTabell}.\\
+Her har vi altså brukt et \texttt{interface} til å være bindeledd mellom komponenter som eller ikke kjenner til hverandre. Det samme gjøres i uttstrakt bruk i tabellens "museklikk"-metoder, både ved høyreklikk og dobbelklikk er det hengt på en \texttt{lytter} som vet når noe er utført og en \texttt{event} skal utføres.
+ 
