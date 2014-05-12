@@ -4,18 +4,116 @@
 Da prosjektet startet var vi fornøyd med én \texttt{kontroller} og kalte den \texttt{MainController.java}. Det viste seg ganske raskt at den ville kunne bli enormt stor, så da endte vi opp med å dele den opp i flere deler. Siden den gang har vi besluttet at vi like godt kunne ha én \texttt{kontroller} til hvert vindu, og kanskje noen uten tilhørende vinduer også.
 \texttt{MainController} instansierer alle \texttt{hovedkontrollerne}, bortsett fra \texttt{BunnController} som instansieres fra \texttt{ControllerTabell} og \texttt{ControllerOutput} som ikke instansieres. Den har bare statiske metoder som tar i mot diverse data og viser dem i \texttt{JEditorPane} formatert som \texttt{HTML}.
 
+I tillegg til \texttt{hovedkontrollerne} har vi \texttt{registreringskontrollerne} som hører til hvert sitt registreringsvindu. De vil bli nevnt under \ref{sec:regkontrollere} på side \pageref{sec:regkontrollere}. \\
+
 Det er et eget avsnitt i dette kapitelet vedrørende lyttefunksjonaliten vi har implementert for å kunne kommunisere mellom de forskjellige \texttt{kontrollerne} .
-Den første delen av prosjektet var ikke \texttt{JTable}-implementasjonen vår veldig god og vi kunne ikke benytte oss av å teste hvilket datasett som var satt i tabellen. Dermed endte vi opp med å bruke identifikatorer for dette. Først med \texttt{konstanter} og så \texttt{Enum} som identifiserte personobjekter, boligobjektet osv.
+
+I den første delen av prosjektet var ikke \texttt{JTable}-implementasjonen vår veldig god og vi kunne ikke benytte oss av å teste hvilket datasett som var satt i tabellen. Dermed endte vi opp med å bruke identifikatorer for dette. Først med \texttt{konstanter} og så \texttt{Enum} som identifiserte personobjekter, boligobjektet osv.
 Vi måtte derfor implementere \texttt{Interface}-lyttere som lyttet på når et nytt ny \texttt{ArrayList} var satt i tabellen blant annet.
+
 Siden det har tabellen kommet skikkelig på plass og det går nå an å teste hvilken type objekter som ligger i tabellen. Dermed har vi til dels begynt å teste på tabellens \texttt{getModel()}-metode for å finne instansen av datasettet.
-Siden vi likevel var veldig  stolte av løsningen vår med \texttt{interface}-lyttere har vi valgt å beholde noe av implementasjonen og vil derfor ha et eget delkapittel for dette her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}.
+
+Siden vi likevel er veldig  stolte av løsningen vår med \texttt{interface}-lyttere har vi valgt å beholde noe av implementasjonen og vil derfor ha et eget delkapittel for dette her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}.
 
 
 \subsection{Hovedkontrollerne} \
 \texttt{Hovedkontrollerne} er betegnelsen på klassene \texttt{MainController.java, ControllerTabell.java, ControllerOutput.java, ControllerBunnPanel.java, ControllerToppPanelMegler.java} og \texttt{ControllerToppPanelAnnonse.java}.
+Disse \texttt{kontrollerne} styrer absolutt all funksjonalitet mellom datastrukturen og brukergrensesnittet.
 
+
+\subsection{\texttt{MainController.java}}
+Denne klassen instansieres fra \texttt{SkrivTilLesFraFil.java}, der data blir lest inn fra fil og skrevet til fil.
+Denne klassen har ikke noe brukergrensesnitt og den eneste oppgaven den har er å starte andre \texttt{kontrollere} og brukergrensesnittet.
+
+I tillegg til det passer \texttt{kontrolleren} på at de andre komponentene som skal kommunisere sammen har mulighet til det. Dette er løst med en lytteløsning beskrevet her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}.
+
+
+\subsection{\texttt{ControllerToppPanelMegler.java}}
+Brukergrensesnittet til denne klassen gir megler mulighet til å søke i de forskjellige datasettene, samt registrere nye objekter.
+I tillegg er det er enkelt statistikkpanel som viser antall ledige boliger og antall kontrakter signert i år.
+
+Klassens primære funksjon er søkefunksjonaliteten og videresending av resultatet til tabellen. \\
+
+Metoden \texttt{finnValgtObjektITabell} har en \texttt{ListSelectionListener} som lytter på tabellens \texttt{valueChanged}. Hver gang en ny rad er valgt i tabellen så returneres nummeret på raden som er valgt. Om verdien som returneres er forskjellig fra \texttt{-1} (når tabellen ikke har en valgt rad returneres -1) så konverteres nummeret til den bakenforliggende tabellmodellens index. Til slutt så lagres det et \texttt{Object valgtObjekt} som hentes på den indexen som er angitt. \\
+
+Metoden \texttt{sendSokeResultat} tar i mot en streng fra søkefeltet, og avhengig av hvilken \texttt{radioknapp} som er valgt så kjøres søkemetoden på det rette datasettet. Resultatet lagres i en ArrayList. Søkemetoden er beskrevet nærmere her \ref{sec:sok}, på side \pageref{sec:sok}.\\
+Resultatet blir så sendt ned til tabellen og vist der. Det skjer via \texttt{lytteren} som blir vist ved eksempel her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}. \\
+
+Den private klassen \texttt{KnappeLytter} lytter på de fire knappene i brukergrensesnittet. Metodene tester på hvilken type objektet som er valgt i tabellen er og man får bare trykke på vedrørende knapp om det man ønsker å utføre er relevant.\\
+F.eks. så skal man ikke kunne trykke på "Ny Bolig" uten å ha først valgt et personobjekt av typen \texttt{Utleier} i tabellen.
+
+\subsection{\texttt{ControllerToppPanelAnnonse.java}}
+Denne \texttt{kontrolleren} er mer avansert enn \texttt{ControllerToppPanelMegler.java}. Klassen benytter seg av et \texttt{AnnonseFilter} som er beskrevet i detalj her \ref{sec:annonsesok}, på side \pageref{sec:annonsesok}. \\
+\texttt{Annonsefilteret} har to \texttt{get-metoder} som brukes for å fyllet ut de to \texttt{komboboksene} som lister boligtyper og poststeder. Det er metodene \texttt{addPoststederToComboBoxOnLoad} og \texttt{addBoligTyperToComboBoxOnLoad} som tar seg av denne jobben. \\
+\texttt{komboboksen} som lister opp poststed er implementert slik at den søker gjennom alle annonsene som er publisert og henter poststedet inn i listen. Det vil si at når én annonse forsvinner, så forsvinner også poststedet fra \texttt{komboboksen} også, så sant det ikke er andre annonser publisert for en bolig på samme poststed. \\
+
+I det man trykker på søkeknappen i brukergrensesnittet så kjøres metoden \texttt{sendSokeResultat}. Denne metoden kjører så metoden \texttt{filtrerAnnonser}, og om \texttt{lytteren} er instansiert så sendes datasettet ned til tabellen via \texttt{interfacet} som står for kontakten mellom \texttt{kontrollerne}. Denne lyttefunksjonaliteten blir vist ved eksempel her \ref{sec:kontrollerlyttere}, på side \pageref{sec:kontrollerlyttere}.
+
+Metoden \texttt{filtrerAnnonser} nevnt overnfor henter søkekriterier fra brukergrensesnittet og om kriteriene passerer RegEx-testen så sendes de med til \texttt{annonsefilteret} som parametere. Returen fra denne metoden er et \texttt{HashSet} av annonser.
+
+
+\subsection{\texttt{ControllerBunnPanel.java}}
+Denne klassen instansieres fra \texttt{ControllerTabell.java} i motsetning til de andre \texttt{kontrollerne}. Denne klassen har tre knapper som brukes i forbindelse med navigering i tabellen, samt til å åpne registreringsvinduet for valgt objekt for endring. \\
+Klassen har én privat \texttt{KnappeLytter}-klasse som utgjør omtrent hele funksjonaliteten til denne \texttt{kontrolleren}. \\
+Den ene knappen her har forskjellig funksjonalitet om man er i \texttt{annonseVindu} enn om man er i \texttt{meglerVindu}. \\
+\texttt{Konstruktøren} til \texttt{KnappeLytteren} endrer navn på \texttt{MultiKnapp} som vi har valgt å kalle den. 
+
+I \texttt{actionPerformed}-metoden vil det testes for hvilket datasett som ligger i tabellen, hvilken rad som er valgt, og hvilket vindu man befinner seg i. Se eksempel:
+
+\begin{lstlisting}[caption=Utdrag fra \texttt{actionPerformed}-metoden i \texttt{ControllerBunnPanel.java}]
+    if (tabell.getModel() instanceof TabellModellAnnonse) {
+        modellIBruk = (TabellModellAnnonse) modellIBruk;
+        if (vindu instanceof ArkfaneMegler) {
+            new ControllerRegistrerAnnonse(annonseliste, personliste, (Annonse) modellIBruk.finnObjektIModell(valgtRad));
+        } else {
+            new ControllerRegistrerSoknad(personliste, annonseliste, soknadliste, (Annonse) modellIBruk.finnObjektIModell(valgtRad));
+        }
+    }
+\end{lstlisting}
+
+\subsection{\texttt{ControllerOutput.java}}
+\texttt{SenterPanel.java} har én komponent som viser valgt objekt i tabellen i \texttt{HTML}visning. Alle metodene i denne klassen er statiske. De skal ikke behandle objekter, bare vise dem. Denne \texttt{kontrolleren} er derfor ikke instansiert noe sted. \\
+Alle "\texttt{HTML}-metodene" tar i mot \texttt{JEditorPane}-komponenten det skal skrives til, i hvilket vindu man befinner seg i, objektet som skal vises og eventuelt et eller flere \texttt{HashSet} om en trenger ytterligere informasjon i utskriften.
+
+\texttt{Utleier}-objekter har i visningen blant annet en liste over boliger de eier, om noen. Da er det hjelpemetoder som itererer over \texttt{boligregisteret} og finner eieren av hver \texttt{bolig}. \texttt{Boligene} til valgt valgt \texttt{Utleier} vil da returneres og skrives ut i \texttt{Utleier}-objektet.
+
+Ut over selve metodene for å vise objekter så finnes metoden \texttt{setStylesheet} helt nederst i klassen.
+Alle "\texttt{HTML}-metodene" må formateres så de passer inn i vinduet \texttt{JEditorPane} har tilgjengelig. 
+Det er stort sett brukt tabeller for å vise objekter, og da \texttt{JEditorPane} ikke støtter nyere \texttt{HTML}-versjon enn 3.2 med \texttt{CSS} 1.0, så har vi vært ganske begrenset på hvor for seg gjort visningene kunne bli.
+Det måtte en del justering på plass, da en ikke kan automatisk skalere bilder, som i nyere versjoner av \texttt{HTML}.
+
+
+\subsection{\texttt{ControllerTabell.java}}
+Denne \texttt{kontrolleren} er holder orden på alle data som skal vises i tabellen i \texttt{VenstrePanel.java} der tabellen ligger, samt funksjonalitet for å slette, endre og opprette nye objekter. \\
+Dette kapittelet vil ta for seg noen nøkkelpunkter på funksjonalitet og flyt av data.
+
+$\bullet$ Hvordan tabellen tar i mot data og settes opp \ref{sec:oppsettabell}, side \pageref{sec:oppsettabell} \\ 
+$\bullet$ Datamodellene, sortering og formatering \ref{sec:virkemåtetabell}, side \pageref{sec:virkemåtetabell} \\
+$\bullet$ PopupMeny-funksjonalitet \ref{sec:interaktivitettabell}, side \pageref{sec:interaktivitettabell} \\
+$\bullet$ Lytter på klikk i Output-vinduet \ref{sec:lyttetoutputvindu}, side \pageref{sec:lyttetoutputvindu} \\
+
+
+\subsubsection{Hvordan \texttt{kontrolleren} setter opp tabellen} \label{sec:oppsettabell}
+I det programmet starter opp kaller \texttt{MainController.java} opp to metoder i \texttt{TabellController.java}, \texttt{settOppTabellLyttere} og \texttt{settInnDataITabell}. \\
+Den første av disse tar for seg en hel del initialisering av tabellens virkemåte. Den andre tar i mot et datasett og setter det inn i tabellen. Den metoden vil bli beskrevet mer i avsnittet for tabellens virkemåte \ref{sec:virkemåtetabell}, side \pageref{sec:virkemåtetabell}. \\
+
+En \texttt{JTable} har muligheter for utrolig mye funksjonalitet om en velger å ta det i bruk.
+Vår implementasjon er for så vidt litt annerledes enn en del av eksemplene en kan lese om andre steder. Vi har valgt å ikke tillate endring i tabellen. En \texttt{JList} fant vi fort ut var for enkel, da vi gjerne også ville kunne sortere på kolonner.
+
+I prosessen har vi endret tabellens datastruktur to ganger. Først ble det blant annet brukt en \texttt{array}, men da den er vanskelig å slette fra uten mye ekstra prosessering så endte vi opp med en \texttt{ArrayList} som datastruktur. Da vår tabell skal liste ett objekt per linje, så valgte vi ikke å bruke en flerdimensjonal \texttt{array}. 
+
+Metoden \texttt{settOppTabellLyttere} gjør litt mer enn bare å sette opp \texttt{lyttere}. Først initialiserer den \texttt{ControllerBunnPanel.java} sin private \texttt{lytteklasse}. \\
+
+
+
+\subsubsection{Beskrivelse av tabellens oppsett, virkemåte og formatering} \label{sec:virkemåtetabell}
+\subsubsection{\texttt{Muselyttere} og interaktivitet i tabellen} \label{sec:interaktivitettabell}
+\subsubsection{\texttt{Lytter} på klikk i \texttt{Output}-vinduet} \label{sec:lyttetoutputvindu}
 
 \subsection{Kontrollerne for registreringsvinduene} \label{sec:regkontrollere}
+
+
+\subsection{Andre kontrollere}
 
 
 \subsection{Lyttere mellom ulike komponenter i programmet} \label{sec:kontrollerlyttere}
