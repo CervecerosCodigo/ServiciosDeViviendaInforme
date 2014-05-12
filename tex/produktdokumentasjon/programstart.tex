@@ -1,1 +1,26 @@
 \section{Programstart}
+Programstart foretas fra pakke \texttt{ServiciosDeVivienda} fra en main metode med samme navn. Programmet blir startet med bruk av \texttt{SwingUtilities} med hensikt å kjøre 
+
+\begin{lstlisting}[caption=Oppstart av programmet., label=kode:oppstart1]
+        SwingUtilities.invokeLater(new Runnable() {
+
+            SkrivTilLesFraFil startProgram;
+
+            @Override
+            public void run() {
+
+                startProgram = new SkrivTilLesFraFil();
+
+                //////Avsluttnings Hooks///////
+                Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        System.out.println("Programmet avsluttes");
+                        startProgram.lagreData();
+                    }
+                }));
+            }
+        });
+\end{lstlisting}
