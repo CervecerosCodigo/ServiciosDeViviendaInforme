@@ -1,12 +1,30 @@
 \section{Utfordringer}
-Under prosjektets gang har vi støtt på mange utfordringer, hvis vi skal skrive ned alle så kan det resultere i at listen blir lengre enn selve rapporten. Vi har derfor valgt til å avgrense oss til de mest frekvente og de som gav oss størst bekymringer. 
+Under prosjektets gang har vi støtt på mange utfordringer, hvis vi skal skrive ned alle så kan det resultere i at listen blir lengre enn selve rapporten. Vi har derfor valgt til å avgrense oss til de mest frekvente og de som gav oss størst utfordringer.
 
 \subsection{Kontrollerhierarki}
-I MVC modellen dersom man hånderer utveklsing av data mellom en kontroller og en gui klasse kan det normalt håndteres av en matode i GUI klassen som tar i mot en lytter som en parameter fra controlleren. Situasjonen blir noe annerledes dersom man bruker kontrollere i flere nivåer der gui klassen lyttes av gjennom en kontroller som deretter sender data opp til en overliggende kontroller i hierarkien. Slik utfordring har vi løst gjennom bruk av lytter interface som implementeres av alle disse klasser. Dersom lytterinterface "< går av "> vil det blir opfattett feks mellom sub-kontroller og top-kontroller. Utfordringen med den løsningen at koden blir fort ganske kompleks trots at den bli ganske så modulerbar.
+I MVC-modellen, dersom man håndterer utveksling av data mellom en kontroller og en GUI-klasse, kan det normalt håndteres av en metode i GUI-klassen som tar i mot en lytter som en parameter fra kontrolleren. \\
+Situasjonen blir noe annerledes dersom man bruker kontrollere som ligger parallelt med hverandre uten å ha kommunikasjon mellom hverandre. Denne utfordring har vi løst ved bruk av "lytter-interface" som implementeres av alle disse klassene. Dersom lytter-interface "< går av "> vil det blir oppfattet av alle som som har interfacets metode implementert. Utfordringen med den løsningen at koden blir fort ganske kompleks til tross for at den blir ganske så fleksibel.
 \subsection{Serialisering}
 \subsection{Tabellmodell}
-\subsection{\emph{Layout} managere}
+Det vi begynte på prosjektet hadde vi ikke lært mye om \texttt{JTable}. Da dette dukket opp på forelesning hadde vi allerede brukt det en stund, og funnet ut at vanlig \texttt{Array} ikke holder mål. Oracle sin dokumentasjon nevner bruk av \texttt{Array} og \texttt{Vectorer} som datakilde, men vi valgte å gå over til \texttt{ArrayList}. Vi har ett objekt per linje, og trengte ikke å bruke multidimensjonel implementasjon.
+
+Første forsøk på å lage egen tabellmodell gikk tilsynelatende bra, men ved fjerning av elementer fra tabellen oppstod det enormt mange Null Pointer- og ArrayOutofBound-exceptions. Spesielt om tabellen ble tømt for objekter. Da hang hele programmet seg. Det tok en hel dag å bli kvitt dette problemet. 
+\subsection{\texttt{Layout}-managere}
+Underveis har vi sikkert vært innom alle \texttt{Layout}-managere. Vi har hatt mange forskjellige behov underveis, i de forskjellige registreringsvinduene og panelene, og har endt opp med en god løsning der vi stort sett bruker \texttt{BorderLayout} på selve vinduet, og så en variasjon av \texttt{FlowLayout} og \texttt{GridBagLayout} innvendig i panelene til \texttt{BorderLayouten}. \\
+I de vinduene vi bare har ett panel har vi brukt \texttt{GridLayout} med én rad og én kolonne. \\
+Alle våre paneler arver enten \emph{AbstractPanel} eller er instans av \emph{CustomSubPanel} og begge de klassene tar i mot \texttt{Layout}-managere.
+
 \subsection{Konflikter i GIT}
+Ingen i gruppen hadde vært borte i GIT noe spesielt før prosjektet startet og spesielt de første to ukene brukte vi like mye tid på å lære oss dette og fikse konflikter, som vi brukte på å programmere. Da to av oss sitter på Linux og bruker Netbeans og én sitter på Mac og bruker Eclipse, så har det vært en del utfordringer knyttet til dette også.
 \subsection{Objektreferanser}
-\subsection{\emph{Swing} og portabilitet}
+\subsection{\texttt{Swing} og portabilitet}
+Det har vært noen utfordringer med diverse \texttt{Swing}-komponenter. Vi opplevde til stadighet at tekstfelt "kollapset". Det vil si at de ble bare ca 1cm bred. Neste gang man åpnet samme vindu kunne det være i orden igjen. 
+
+En annen ting er \texttt{JEditorPane}. \texttt{HTML}-versjonen som støttes er versjon 3.2, og \texttt{CSS} 1.0. 
+Det er ikke mulig å plassere komponenter slik man er vant til i dag, og bruk av tabeller ble eneste løsning. Dette er likevel noe vi gjerne skulle ha gjort bedre om teknologien bak \texttt{JEditorPane} hadde tillatt det. \texttt{JavaFX} har støtte for \texttt{HTML5}.
+
+\texttt{JPopupMenu} som vi bruker ved høyreklikking i tabellen var svært ustabil da vi brukte Java's innebygde "Cross plattform Look and Feel" kunne popupmenyen dukke opp et god stykke unna der man høyreklikket. Dette var variabelt fra gang til gang man åpnet programmet. Etter overgang til "Nimbus Look and Feel" har dette, samt flere andre ting blitt betraktelig bedre.
+
+Et problem som vi fortsatt har i Linux, men som virker å være borte i Windows, er at hver gang man høyreklikker i tabellen så må vi gjøre det to ganger for at den skal skifte fokus fra det den holdt på med. Hadde man feks hatt personobjekter i tabellen, og så søker på nytt etter boliger, så kunne man likevel få opp menyen for personobjekter ved det høyreklikket. Høyreklikket man en gang til dukket boligobjektenes meny opp.
+
 \subsection{Genereiske metoder og klasser}
