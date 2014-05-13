@@ -1,17 +1,17 @@
 \section{Tolkning av oppgaven}
-Med hensikt å klare gjennomføre prosjektoppgave på den tid som vi har tilgjengelig har vi valgt og gjøre noen tolkninger og tilpasninger. I følgende seksjoner følger en beskrivelse av hver enkel punkt som er tilpasset etter hva vi anser er gunstig for å løse oppgaven.
-Oppgaven gir oss stor frihet til å prioritere hva som skal implementeres, og noen ting som kanskje ville vært naturlig å ha med, er kanskje ikke tatt med. Dette har vi likevel prøvd å legge til rette for ved en fremtidig utvidelse av programmet. 
-Et eksempel på dette er statistikk. Vi har laget \emph{Calendar}-felter i Annonse-objektet som er tenkt brukt i forbindelse med hvor lenge en annonse har vært annonsert, hvor mange dager det tok før den ble utleid osv. Vi har ikke fått implementert en god nok statistikkmodul som tar i bruk dette grunnet tidsmangel.
+For å kunne gjennomføre prosjektoppgaven på den tid som vi har tilgjengelig har vi valgt og gjøre noen tolkninger og tilpasninger. I de følgende avsnitt følger en beskrivelse hvordan vi har tolket oppgaven.
+Oppgaven gir oss stor frihet til å prioritere hva som skal implementeres, og noen egenskaper andre ville implementert er kanskje ikke det i vårt prosjekt, og omvendt. Dette har vi likevel prøvd å legge til rette for ved en fremtidig utvidelse av programmet. 
+Et eksempel på dette er statistikk. Vi har laget \texttt{Calendar}-felter i Annonse-objektet som er tenkt brukt i forbindelse med hvor lenge en annonse har vært annonsert, hvor mange dager det tok før den ble utleid osv. Vi har ikke fått implementert en god nok statistikkmodul som tar i bruk dette grunnet tidsmangel.
 
 Vår prioritering har i hovedsak vært rettet mot å lage et så robust program som mulig fra bunnen av, slik at man enkelt kan bytte ut/bygge om store deler av programmet uten at andre funksjoner og funksjonalitet skal merke det.
 Mye av tiden vi har brukt på utvikling har dermed gått til å finne de beste strukturelle løsningene, selv om det har vært mer tidkrevende og tilsynelatende ikke vises i det kjørbare programmet. 
 Dokumentasjonen vil derfor fokusere mye på de ulike løsningene vi har valgt og hvorfor vi har gjort det slik.
 
 \subsection{Brukergrensesnitt}
-Et slik program skulle normalt bli delt opp i to separate kjørbare filer eller programmer, slik at man fullstendig avgrenser grensesnittet for megler og boligsøker. Med tanke på at data fra programmet skal seriaslieres til disk ved avslutning av programmet skulle slik løsning medføre store utfordringer da to uavhengige programmer deler på samme register. For å enkelt demonstrere mulighetene har vi derfor valgt å sette opp begge deler av programmet i et og samme brukergrensesnitt. Grensesnittet for megler og utleier er derfor delt opp i samme vindu med \emph{tabpanes}. 
+Et slik program skulle normalt bli delt opp i to separate programmer eller grensesnitt, slik at man fullstendig avgrenser grensesnittet for megler og boligsøker. Med tanke på at data fra programmet skal serialiseres til disk ved avslutning av programmet skulle slik løsning medføre store utfordringer da to uavhengige programmer deler på samme register. For å enkelt demonstrere mulighetene har vi derfor valgt å sette opp begge deler av programmet i et og samme brukergrensesnitt. Grensesnittet for megler og utleier er derfor delt opp i samme vindu med \texttt{tabpanes}. 
 
 \subsection{Boligøskere} \label{sec:sokere}
-Til forskjell fra det som står i oppgaven har vi valgt å ikke registrere opplysninger til en boligsøker før den bestemmer seg for å melde sin interesse for en bolig. Boligsøker skal i sitt brukergrensesnitt blir presentert med alle tilgjengelige boligannonser skal filtrere utfra egne kriterier. Dersom man ønsker å søke på en bolig vil søkeren bli presentert med en dialog for å legge inn sine opplysninger og sende dem til ansvarlig megler. Før søkeren kan registrere sine opplysninger vil han bli presenter med eventuelle krav fra utleier gjeldende den boligen (feks at det ikke er lov til å røyke). Søkeren må akseptere kravene for å sende en forespørsel. En boligsøker kan søke på flere annonser, og leietakerobjektet blir lagt med som parameter i søknadsobjektet, men ikke registrert i personregisteret før en søknad er godkjent av megler. Denne boligsøkeren vil da ikke kunne søke på flere boliger, da leietakerobjektet er opprettet i personregisteret. 
+Til forskjell fra det som står i oppgaven har vi valgt å ikke registrere opplysninger til en boligsøker før den bestemmer seg for å melde sin interesse for en bolig/annonse. Boligsøker skal i sitt brukergrensesnitt bli presentert for alle tilgjengelige boligannonser filtrert utfra egne kriterier. Dersom man ønsker å søke på en bolig vil søkeren bli presentert med en dialog for å legge inn sine opplysninger og sende dem til ansvarlig megler. Før søkeren kan registrere sine opplysninger vil han bli presentert med eventuelle krav fra utleier gjeldende den boligen (feks at det ikke er lov til å røyke). Søkeren må akseptere kravene for å kunne sende en forespørsel. En boligsøker kan søke på flere annonser, og leietakerobjektet blir lagt med som parameter i søknadsobjektet, men ikke registrert i personregisteret før en søknad er godkjent av megler. Denne boligsøkeren vil da ikke kunne søke på flere boliger, da leietakerobjektet er opprettet i personregisteret. 
 %\\
 %\marginpar{Notat}
 %\textit{
@@ -21,8 +21,8 @@ Til forskjell fra det som står i oppgaven har vi valgt å ikke registrere opply
 I oppgaveteksten står det:
 \textit{"<...Ved å matche ledige boliger mot de boligsøkandens beskrivelser skal firmaet informare sine kunder om aktueller leietakere og boliger...">}
 
-Som beskrevet i \ref{sec:sokere} har vi valgt å legge slik matching av boliger på selve søkeren etter en løsning der megleren skal ha slik ansvar er mer fra tiden da datamaskiner ikke var tilgjengelige for publikum. Slik tilpasninger gjør at megleren har i stort sett følgende ansvarsområder som kan håndteres via programmet: (1) registrering av nye utleiere, (2) registrering av boliger som tilhører utleierne, (3) legge ut annonser slik at de blir tilgjengelige for boligsøkere, (4) håndtere innkomne forespørsler, (5) opprette kontrakt mellom søkere og utleiere ved inngått avtale. 
-Vi har tolket de slik at megleren har egentlig tilgang til følgende registre:
+Som beskrevet i \ref{sec:sokere} har vi valgt å legge slik matching av boliger på selve søkeren. Hvis boligsøker aksepterer utleiers krav under søkeprosessen vil det være bindende forhold i kontrakten også. Slik tilpasninger gjør at megleren stort sett har følgende ansvarsområder som kan håndteres via programmet: (1) registrering av nye utleiere, (2) registrering av boliger som tilhører utleierne, (3) legge ut annonser slik at de blir tilgjengelige for boligsøkere, (4) håndtere innkomne forespørsler, (5) opprette kontrakt mellom søkere og utleiere ved inngått avtale. Megler har da utleiers fullmakt til å håndtere leieforholdet på vegne av utleier. 
+Vi har tolket det slik at megleren har tilgang til følgende registre:
 %Kan brukes for mindre avstand
 %\begin{itemize}[noitemsep,nolistsep]
 \begin{itemize}
@@ -32,14 +32,13 @@ Vi har tolket de slik at megleren har egentlig tilgang til følgende registre:
 \item Leietakere
 \item Kontrakter
 \end{itemize}
-Det medfører at megleren vil arbeide med disse registre hvilket tar oss til søkefunksjonen. Avhengig av hva megler ønsker å finne i hvert av disse registrene skal han/hun ha mulighet til å avgrense i hvilket register man ønsker å søke. Slik tilpasning der vi deler opp programmet etter slike registrer gjør det met intuitivt for brukeren og gjør det enklere også for utvikleren.
 
 \subsection{Historikk}
-Dersom en leietaker inngår et kontrakt blir sendt med som parameter, sammen med Boligobjektet og Meglerobjektet til et kontraktobjekt. I kontraktregisteret skal det ikke være mulig for megler å foreta sletting slik at data over hvilke boliger ble utleide når til hvilke leietakere. Dette vil da utgjøre historikken som vil være søkbar, selv etter at en eventuelt bolig eller leietaker ikke lenger finnes i andre registre.
+Dersom en leietaker inngår en kontrakt blir Leietakerobjektet sendt med som parameter, sammen med Boligobjektet og Meglerobjektet til et kontraktobjekt. I kontraktregisteret skal det ikke være mulig for megler å foreta sletting slik at data over hvilke boliger ble utleide når til hvilke leietakere. Dette vil da utgjøre historikken som vil være søkbar, selv etter at en eventuelt bolig eller leietaker ikke lenger finnes i andre registre.
 
 \subsection{Utleiere}
-En utleier kan ha en eller flere boliger men kan også være en representant i form av en firma. I slik fall har vi mulighet å registrere en utleier som er en kontaktperson men også er en representant for en firma som leier ut boliger. En utleier kan be om å bli slettet fra registeret, men ikke om han har boliger i boligregisteret. 
+En utleier kan ha en eller flere boliger men kan også være en representant for et firma. En utleier kan be om å bli slettet fra registeret, men ikke om han har boliger i boligregisteret. 
 
 \subsection{Boliger}
-Vi går ut fra at boliger som registreres til utleie er eiendomsobjekter som kan være tilgjengelige på utleiemarkedet så snart et leieforhold er over (dersom slik funksjonalitet ønskes av utleieren). Derfor har vi valgt å legge til funksjonaliteten i boligregisteret å sette opp dato fra hvilket en bolig kan vøre tilgjengelig for utleie på nytt. Eventuelle bilder som blir lagret for boligen følger derfor boligobjektet og ikke annonsen slik at megleren ikke trenger å legge ut bildene på nytt dersom boligen skal plasseres på markedet igjen. En bolig som er utleid kan ikke slettes fra boligregisteret.
+Vi går ut fra at boliger som registreres til utleie er eiendomsobjekter som kan være tilgjengelige på utleiemarkedet så snart et leieforhold er over (dersom slik funksjonalitet ønskes av utleieren). Derfor har vi valgt å legge til funksjonaliteten i boligregisteret å sette opp dato fra hvilket en bolig kan være tilgjengelig for utleie på nytt. Eventuelle bilder som blir lagret for boligen følger derfor boligobjektet og ikke annonsen slik at megleren ikke trenger å legge ut bildene på nytt dersom boligen skal plasseres på markedet igjen. En bolig som er utleid kan ikke slettes fra boligregisteret.
 
