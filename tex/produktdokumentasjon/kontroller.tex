@@ -427,7 +427,41 @@ Og så eksempelet på funksjonaliteten til to av menyvalgene i popupmenyen.
 
 
 
+
 \subsection{Kontrollerne for registreringsvinduene} \label{sec:regkontrollere}
+Alle kontrollere for registrerings vinduer finnes i pakken \texttt{controller.register}. Samtlige av disse kontrollene arver \texttt{AbstractControllerRegister.java} som er superklasse til registerkontrollene. Superklassen brukes til å håndetere lesing og skrvning av objekter til alle \texttt{HashSet} som brukes i de kontrollene. Klassen gjør at koden for lesing og skriving blir arvet av hver enkel kontroller. Ettersom det brukes flere forskjellige \texttt{HashSet} i programmet er superklassen satt opp med generisk parametre og begrenset til \texttt{Collection.Set.HashSet<E>}. Superklassen består av to konstruktører, den første blir kalt opp men et set som parameter og brukes ved registrering av nytt objekt f.eks. ny bolig. Nødvendige parametre for opprettelse av objektet blir hentet opp fra gui gjennom en kontroller som arver den superklassen. Den andre konstruktøren tas i bruk dersom et boligobjekt skal editeres og derfor det blir sent med et set og et generelt objekt som blir sendt fra markeringen i tabellen. Slik løsning er valgt etterom \texttt{HashSet} ikke tillater duplikater hvilket er en automatisk mekanisme for å unngå dobbelregistreringa av data i registrene. Dersom man skal dog gjennomføre endringer i et eksisterende objektet i settet må det objektet plokkes ut fra set, slettes i set, deretter kan datafelt oppdateres og legges tilbake i settet. Derfor blir objektet som skal endres direkte sendt med til den andre konstruktøren i superklassen.
+
+
+
+\begin{lstlisting}[caption=\texttt{AbstractControllerRegister.java} kontroller arvet av alle regsitreringskontrollerene.,label=kode:contreg1]
+public abstract class AbstractControllerRegister<E> {
+
+    final HashSet<E> set;
+    Object obj;
+
+    public AbstractControllerRegister(HashSet<E> set) {
+        this.set = set;
+    }
+
+    public AbstractControllerRegister(HashSet<E> set, Object obj) {
+        this.set = set;
+        this.obj = obj;
+    }
+
+    public boolean slettObjekt(E e) {
+        return set.remove(e);
+    }
+    
+    public boolean registrerObjekt(E e) {
+        return set.add(e);
+    }
+}
+
+\end{lstlisting}
+
+
+
+
 
 
 \subsection{Andre kontrollere}
