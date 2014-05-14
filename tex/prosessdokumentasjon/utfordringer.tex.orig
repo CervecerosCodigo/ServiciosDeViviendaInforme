@@ -2,18 +2,25 @@
 Under veis i prosjektet har vi støtt på mange utfordringer. Hvis vi skal skrive ned alle så kan det resultere i at listen blir lengre enn selve rapporten. Vi har derfor valgt til å avgrense oss til de mest frekvente og de som gav oss størst utfordringer.
 
 \subsection{Kontrollerhierarki}
+<<<<<<< HEAD
+I MVC-modellen, dersom man håndterer utveksling av data mellom en kontroller og en GUI-klasse, kan det normalt håndteres av en metode i GUI-klassen som tar i mot en lytter som en parameter fra kontrolleren. \\
+Situasjonen blir noe annerledes dersom man bruker kontrollere som ligger parallelt med hverandre uten å ha kommunikasjon mellom hverandre. Denne utfordring har vi løst ved bruk av "lytter-interface" som implementeres av alle disse klassene. Dersom lytter-interface "< går av "> vil det blir oppfattet av alle som som har interfacets metode implementert. Utfordringen med den løsningen at koden blir fort ganske kompleks til tross for at den blir ganske så fleksibel.
+
+=======
 I MVC-modellen, kan kommunikasjonen mellom kontroller og brukergrensesnitt håndteres av en metode i GUI-klassen som tar i mot en lytter som en parameter fra kontrolleren. \\
 Situasjonen blir litt annerledes dersom man bruker kontrollere som ligger parallelt med hverandre uten å ha kommunikasjon mellom hverandre. Denne utfordringen har vi løst ved bruk av "lytter-interface" som implementeres av alle disse klassene. Dersom lytter-interface "< går av "> vil det bli oppfattet av alle som som har implementert interfacet. Utfordringen med den løsningen at koden blir fort ganske kompleks til tross for at den er veldig fleksibel. 
+>>>>>>> espen
 \subsection{Serialisering}
 De utfrodringer som vi støtte på ved serialsiering av objektene var at i begynnelsen ble det prøvd en løsninger der vi serialiserte registrene i en klasse som va spesifikk laget for dette. Med det menes at vi lagde en klasse som kunde ta imot våre \texttt{collections} (dataregistere) via sin kontruktør og serialisere dem. Data ble serialisert men vi fikk ikke til å lese inn dataene igjen på en måte som ga oss muligheten til å gjenopprette objektene på nytt. Den eneste løsningen som fungerte var at vi serialiserte alle registere (\texttt{HashSet}) og static variabler i samme klasse i hvilken de ble instansiert. Dette er en vel fungerende løsning men er ikke noe som vil være robust nok dersom man ønkser å øke programmets funksjonalitet. 
 
 
 \subsection{Tabellmodell}
-Det vi begynte på prosjektet hadde vi ikke lært mye om \texttt{JTable}. Da dette dukket opp på forelesning hadde vi allerede brukt det en stund, og funnet ut at vanlig \texttt{Array} ikke holder mål. Oracle sin dokumentasjon nevner bruk av \texttt{Array} og \texttt{Vectorer} som datakilde, men vi valgte å gå over til \texttt{ArrayList}. Vi har ett objekt per linje, og trengte ikke å bruke multidimensjonel implementasjon.
+Da vi begynte på prosjektet hadde vi ikke lært mye om \texttt{JTable}. Da dette dukket opp på forelesning hadde vi allerede brukt det en stund, og funnet ut at vanlig \texttt{Array} som datastruktur ikke holder mål. Oracle sin dokumentasjon nevner bruk av \texttt{Array} og \texttt{Vectorer} som datakilde, men vi valgte å gå over til \texttt{ArrayList}. Vi har ett objekt per linje i tabellen og kolonnene i tabellen består av et utvalg av objektets datafelter.
 
-Første forsøk på å lage egen tabellmodell gikk tilsynelatende bra, men ved fjerning av elementer fra tabellen oppstod det enormt mange Null Pointer- og ArrayOutofBound-exceptions. Spesielt om tabellen ble tømt for objekter. Da hang hele programmet seg. Det tok en hel dag å bli kvitt dette problemet. 
+Første forsøk på å lage egen tabellmodell gikk tilsynelatende bra, men ved fjerning av elementer fra tabellen oppstod det enormt mange Null Pointer- og ArrayOutofBound-exceptions. Spesielt om tabellen ble tømt for objekter. Da hang hele programmet seg. Det tok en hel dag å bli kvitt dette problemet. I det man sletter en rad i tabellen, mister den fokus på valgt rad og returnerer -1. I det man ønsker å konvertere valgt rad i tabellen til \texttt{ArrayListens} index så ble det jo galt. Det samme gjaldt om tabellmodelles \texttt{getColumnClass}-metode som må returnere \texttt{Object.class} og ikke \texttt{null} når tabellen er tom.
+
 \subsection{\texttt{Layout}-managere}
-Underveis har vi sikkert vært innom alle \texttt{Layout}-managere. Vi har hatt mange forskjellige behov underveis, i de forskjellige registreringsvinduene og panelene, og har endt opp med en god løsning der vi stort sett bruker \texttt{BorderLayout} på selve vinduet, og så en variasjon av \texttt{FlowLayout} og \texttt{GridBagLayout} innvendig i panelene til \texttt{BorderLayouten}. \\
+Underveis har vi sikkert vært innom alle \texttt{Layout}-managere. Vi har hatt mange forskjellige behov underveis i de forskjellige registreringsvinduene og panelene, og har endt opp med en god løsning der vi stort sett bruker \texttt{BorderLayout} på selve vinduet, og så en variasjon av \texttt{FlowLayout} og \texttt{GridBagLayout} innvendig i panelene til \texttt{BorderLayouten}. \\
 I de vinduene vi bare har ett panel har vi brukt \texttt{GridLayout} med én rad og én kolonne. \\
 Alle våre paneler arver enten \emph{AbstractPanel.java} eller er instans av \emph{CustomSubPanel.java} (som igjen arver \texttt{AbstractPanel.java} og begge de klassene tar i mot \texttt{Layout}-managere i minst én av sine konstruktører.
 
