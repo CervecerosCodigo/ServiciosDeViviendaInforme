@@ -85,7 +85,7 @@ Som vi kan se i koden AbstraktArkfane setter opp komponenter som inngår i de to
 
 
 
-\subsection{\texttt{MeglerPanel.java}}
+\subsection{\texttt{MeglerPanel.java}} \label{subsec:meglerpanel}
 Meglerpanelen (figur \ref{fig:megler_panel}) er kontrollert fra \texttt{ControllerToppPanelMegler.java}, komponentene i den topppanelen blir aktivert og deaktivert avhengig av hvilket register eller funkjson brukeren har valgt for tilfellt. Eksepel på dette er når brukeren for første ette programstart går inn til panelen vil søkefeltet være deaktivert frem til riktig radiobutton velges for det register som man ønsker å søke i. Liknende funkjsonalitet er lagt inn dersom man f.eks. ønsker å registrere en ny bolig. En bolig kan kun registreres på en "<person"> som i dette fall kan være en eier eller en representant. For at man ikke skal ha mulighet til å registrere en bolig uten en eier er det alerede sperret på GUI lager slik at brukeren må markere en alerede registrert eier i eierlisten og deretter klikke på \texttt{Ny bolig} knappen. Så lenge ingen person er marker i tabellen vil knappen forbli deaktivert. Analogt til den fun ksjonaliteten er det lagt til liknende begrensninger for oprettelse an en ny annonse, da det må markeres et boligobjekt i tabellen for å få lov å oprette en ny annonse. Deretter for å oprette et nytt kontrakt må det ha ankommet en forespørsel til megleren som velger først å markerer forespørselen for hvilken kontrakt skal oprettes. 
 
 \begin{figure}[ht]

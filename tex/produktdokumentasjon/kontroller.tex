@@ -429,6 +429,9 @@ Og så eksempelet på funksjonaliteten til to av menyvalgene i popupmenyen.
 
 
 \subsection{Kontrollerne for registreringsvinduene} \label{sec:regkontrollere}
+
+
+\subsubsection*{\texttt{AbstractControllerRegister.java}}
 Alle kontrollere for registrerings vinduer finnes i pakken \texttt{controller.register}. Samtlige av disse kontrollene arver \texttt{AbstractControllerRegister.java} som er superklasse til registerkontrollene. Superklassen brukes til å håndetere lesing og skrvning av objekter til alle \texttt{HashSet} som brukes i de kontrollene. Klassen gjør at koden for lesing og skriving blir arvet av hver enkel kontroller. Ettersom det brukes flere forskjellige \texttt{HashSet} i programmet er superklassen satt opp med generisk parametre og begrenset til \texttt{Collection.Set.HashSet<E>}. Superklassen består av to konstruktører, den første blir kalt opp men et set som parameter og brukes ved registrering av nytt objekt f.eks. ny bolig. Nødvendige parametre for opprettelse av objektet blir hentet opp fra gui gjennom en kontroller som arver den superklassen. Den andre konstruktøren tas i bruk dersom et boligobjekt skal editeres og derfor det blir sent med et set og et generelt objekt som blir sendt fra markeringen i tabellen. Slik løsning er valgt etterom \texttt{HashSet} ikke tillater duplikater hvilket er en automatisk mekanisme for å unngå dobbelregistreringa av data i registrene. Dersom man skal dog gjennomføre endringer i et eksisterende objektet i settet må det objektet plokkes ut fra set, slettes i set, deretter kan datafelt oppdateres og legges tilbake i settet. Derfor blir objektet som skal endres direkte sendt med til den andre konstruktøren i superklassen.
 
 
@@ -461,6 +464,126 @@ public abstract class AbstractControllerRegister<E> {
 
 
 
+\subsubsection*{\texttt{ControllerRegistrerBolig.java}}
+Kontrolleren for boligvindu er satt opp med to konstruktører: en som sørger for registrering av en ny bolig, og den andre konstruktøren brukes til endring av eksisterende bolig (eksempel \ref{kode:boligregkont}). 
+Som nevnt i avsnitt \ref{subsec:meglerpanel} (side \pageref{subsec:meglerpanel}) er det ikke mulig å registrere en bolig uten eier. Den første konstruktøren tar derfor for seg to parametre: (1) HashSet over bolig objekter og (2) person instansen Utleier. De to viktigste oppgavene til denne konstruktøren er å starte opp vinduet til boligbehandling samt kalle opp konstruktøren til superklassen slik at tilhørende HashSet kan behandles av denne. 
+Den andre konstruktøren som finnes med i klassen tar med set HashSet og et bolig objekt som det skal endres på. Datafelt til objektet blir endret med data som tas imot fra GUI. Hvis data som tas imot fra GUI går igjennom regex testen (se eksempel \ref{kode:regex_bolig}) kan objektet blir oppdatert, slettet fra HashSet og lagt det opdaterte obejktet vil bli lagt til registeret (HashSet) på nytt (eksempel \ref{kode:regex_bolig2}). 
+
+
+
+\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Oversikt over konstruktører i bolig registrering/endring kontrolleren., label=kode:boligregkont]
+    /**
+     * En kontruktør for registrering av en ny bolig.
+     *
+     * @param boligSet HashSet<Bolig>
+     */
+    public ControllerRegistrerBolig(HashSet<Bolig> boligSet, Utleier utleier) {
+        super(boligSet);
+        erNyregistrering = true;
+        boligBilde = new BoligBilde();
+        bRegVindu = new BoligRegVindu("Registrering av boliger");
+        bRegVindu.setKnappeLytter(new KnappeLytter());
+        bRegVindu.getEierField().setText(String.valueOf(utleier.getPersonID()));
+        bRegVindu.setIconImage(Ikoner.NY_BOLIG.getImage());
+        bRegVindu.deaktiverBildeKnapper();
+    }
+
+    /**
+     * En konstruktør som brukes for endring av en bolig.
+     *
+     * @param boligSet HashSet<Bolig>
+     * @param bolig Bolig
+     */
+    public ControllerRegistrerBolig(HashSet<Bolig> boligSet, Bolig bolig) {
+        super(boligSet, bolig);
+        erNyregistrering = false;
+        boligBilde = new BoligBilde();
+        this.bolig = bolig;
+
+        initialiseringAvController();
+
+        bRegVindu.setIconImage(Ikoner.EDIT.getImage());
+        
+        //Sperrer mulighet til å gjøre om en leilighet til enebolig og vice versa
+        bRegVindu.getLeilighetRButton().setEnabled(false);
+        bRegVindu.getEneboligRButton().setEnabled(false);
+
+    }
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Regex test av generelle tekstfelt for bolig.,label=kode:regex_bolig]
+    private boolean kontrollerDataBolig() {
+    
+        boolean[] boligOK = new boolean[7];
+
+        boligOK[0] = RegexTester.testID(String.valueOf(eierID));
+        boligOK[1] = RegexTester.testID(String.valueOf(meglerID));
+        boligOK[2] = RegexTester.testGateadresseEnkel(adresse);
+        boligOK[3] = RegexTester.testPostNummer(postNr);
+        boligOK[4] = RegexTester.testPostOrtNavn(postSted);
+        boligOK[5] = RegexTester.testKVMbolig(String.valueOf(boAreal));
+        boligOK[6] = RegexTester.testYearNummer(String.valueOf(byggeAr));
+        for (int i = 0; i < boligOK.length; i++) {
+            if (!boligOK[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Sletting og oppdatering av samme bolig objekt via superklassen til kontrolleren.,label=kode:regex_bolig2]
+    private boolean slettBoligFraSet(Bolig bolig) {
+
+        if (kontrollerDataForSletting(bolig)) {
+            if (super.set.remove(bolig)) {
+                return true;
+            }
+        }
+        visMelding("slettBoligFraSet", "Bolig ble IKKE slettet fra set");
+        return false;
+    }
+    
+    private boolean skrivOppdateringTilBoligSet(Bolig bolig) {
+        if (super.set.add(bolig)) {
+            visMelding("skrivOppdateringTilBoligSet", "Boligen ble oppdatert i registret");
+            return true;
+        }
+        visMelding("skrivOppdateringTilBoligSet", "Boligen ble IKKE oppdatert i registret");
+
+        return false;
+    }
+\end{lstlisting}
+
+En viktig funksjon i alle kontrollene til registreringsvinduer er initialisering av lyttere i dissse klasser. Eller registreingsvinduer har en metode som kan sette en \texttt{ActionListener} til vinduene som blir sendt fra en kontrollere klasse. Hver kontrollerklasse innholder en privat kontroller klasse \texttt{KnappeLytter} (implementerer ActionListener), se eksempel \ref{kode:regex_bolig3}. Den private klassen blir altid instasiert fra konstruktøren il registringskontrollere og sendt som parameter til vinduklassen (etter MVC arkitektur).
+
+\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Uttdrag fra privat lytterklasse i kontrolleren.,label=kode:regex_bolig3]
+    private class KnappeLytter implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource().equals(bRegVindu.getLagreButton())) {
+
+                if (erNyregistrering) {
+                
+                ...
+\end{lstlisting}
+
+
+Pakken for registreringskontrolene består av totalt seks klasser:
+\begin{itemize}[noitemsep,nolistsep]
+\item \texttt{AbstractControllerRegister.java}
+\item \texttt{ControllerRegistrerAnnonse.java}
+\item \texttt{ControllerRegistrerBolig.java}
+\item \texttt{ControllerRegistrerLeietaker.java}
+\item \texttt{ControllerRegistrerSoknad.java}
+\item \texttt{ControllerRegistrerUtleier.java}
+\end{itemize}
+
+I dette avsnittet beskrives kun \texttt{ControllerRegistrerBolig.java} men de andre klassene i denne pakken har mer eller mindre densamme funkjsonalitet. Det som er den største forskjellen mellom disse er preliminær t forskjellige antall tekstfelt i vinduene og noen andre typer at datafelt (f.eks. Calenderobjekt). Ettersom funksjonaliteten og strukturen på de klassene er så lik den klassen som beskrives i dette avsnittet her kommer vi ikke til å beskrive disse i detalj. For de spesielt interesserede henviser vi derfor til kildekoden (pakke \texttt{controller.register}).
 
 
 
