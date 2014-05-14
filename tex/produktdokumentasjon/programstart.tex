@@ -10,15 +10,11 @@ Programmet blir også avsluttet med hjelp av \texttt{ShutDownHook} på en måte 
 
             @Override
             public void run() {
-
                 startProgram = new SkrivTilLesFraFil();
-
                 //////Avsluttnings Hooks///////
                 Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-
                     @Override
                     public void run() {
-
                         System.out.println("Programmet avsluttes");
                         startProgram.lagreData();
                     }
