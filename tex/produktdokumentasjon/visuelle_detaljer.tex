@@ -73,10 +73,7 @@ I figur \ref{fig:tabell} presenteres utseende på formatert tabellobjekt, der an
 \end{figure}
 
 \subsection{Grafisk tema}
-Med hensikt å få bedre portabilitet mellom forskjellige operativsystem har standard Java "<LookAndFeel"> endret fra \texttt{Metal} til det nyeste swing tema \texttt{Nimbus}. Den primære årsaken til dette er at det ble observert noen forskjeller på størrelse og layout av gui komponenter mellom operativsystemene som programmet var testet på. Eksepelvis dersom programmet testedes i Linux miljør finns det ingen "<native"> grafisk miljø i form av komponenter som knapper men på OS der Java er kapabel å renderere stadrad kanpper for systemet ble det noen forskjeller mellom slike komponenter\footnote{Etter tester på Mac OS og Windows.}. Bruk av nimbus som primær tema for gui komponenter gir sikkerhet at alle kompoenentene kommer til å bli renderert gjennom JVM hvilket gir en god portabilitet mellom operativsystemene. 
-
-REFERER HER TIL AVSNITTET OM PORTABILITET
-
+Med hensikt å få bedre portabilitet mellom forskjellige operativsystem har standard Java "<LookAndFeel"> endret fra \texttt{Metal} til det nyeste swing tema \texttt{Nimbus}. Den primære årsaken til dette er at det ble observert noen forskjeller på størrelse og layout av gui komponenter mellom operativsystemene som programmet var testet på. Eksepelvis dersom programmet testedes i Linux miljør finns det ingen "<native"> grafisk miljø i form av komponenter som knapper men på OS der Java er kapabel å renderere stadrad kanpper for systemet ble det noen forskjeller mellom slike komponenter\footnote{Etter tester på Mac OS og Windows.}. Bruk av nimbus som primær tema for gui komponenter gir sikkerhet at alle kompoenentene kommer til å bli renderert gjennom JVM hvilket gir en god portabilitet mellom operativsystemene (vi referer til avsnitt \ref{subsec:portabilitet}, side \pageref{subsec:portabilitet}).
 
 \begin{figure}[ht!]
 \centering

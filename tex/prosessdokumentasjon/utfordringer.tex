@@ -16,8 +16,35 @@ Alle våre paneler arver enten \emph{AbstractPanel} eller er instans av \emph{Cu
 
 \subsection{Konflikter i GIT}
 Ingen i gruppen hadde vært borte i GIT noe spesielt før prosjektet startet og spesielt de første to ukene brukte vi like mye tid på å lære oss dette og fikse konflikter, som vi brukte på å programmere. Da to av oss sitter på Linux og bruker Netbeans og én sitter på Mac og bruker Eclipse, så har det vært en del utfordringer knyttet til dette også.
+
+
 \subsection{Objektreferanser}
-\subsection{\texttt{Swing} og portabilitet}
+I klassen \texttt{FreeTextSearch.java} har vi støtt på problemer med testing av objektype som skulle brukes i klassens søkemetoder. Ettersom vi bruker arv av Person for de forskjellige instansene av person som Utleier, Megler eller Leietaker ønsker man at det skal være mulig å teste på hvilken type av person som blir hentet fra registeret. For søking bruker vi generiske metoder for søking, disse kan håndtere alle mulige register av type \texttt{HashSet}, ikke bare de som består av type Person. Ettersom vi veit hvilken type av set som vi kommer til å sende inn i metoden så hadde det varit optimalt å sende med en parameter som beskriver hvilken type type av person som det skal søkes på. Se eksempel \ref{kode:objekttype}, eksemplet viser en mulight på hvordan vi ønsker at dette bør fungere. Som siste parameter sender vi inn en referanse til det objekt som vi skal teste på. I den indre if-testen forsøker vi å hente opp navn til objektes instans or å undersøke dess type. Dette er testet på mange forskejllige måter og kombinasjoner uten noe som helt resultat. Det er også testet med enum type som spesifierere alle grunleggende objektytper som inngår i programmet (\texttt{Objekttype2.java}). Det var dessverre ikke mulig å tillempe enum typer for å undersøke objektinstansen via \texttt{instanceof}.
+
+
+\begin{lstlisting}[caption=Problem med å teste for objekttype., label=kode:objekttype]
+    public ArrayList<T> searchForPatternIUtleier(HashSet<? extends Searchable> liste, String pattern, Object obj) {
+        pattern = pattern.trim();
+        pattern = pattern.toLowerCase();
+        ...
+                for (Searchable o : liste) {
+                    if (o instanceof obj.getClass().getSimpleName()) {
+                        checkMeForResults = o.toSearch();
+                        for (String s : checkMeForResults) {
+                            s = s.toLowerCase();
+                            if (s.contains(pattern))
+                                resultList.add((T) o);
+                        }
+                    }
+                }     
+                ...
+    }
+\end{lstlisting}
+
+
+
+
+\subsection{\texttt{Swing} og portabilitet} \label{subsec:portabilitet}
 Det har vært noen utfordringer med diverse \texttt{Swing}-komponenter. Vi opplevde til stadighet at tekstfelt "kollapset". Det vil si at de ble bare ca 1cm bred. Neste gang man åpnet samme vindu kunne det være i orden igjen. 
 
 En annen ting er \texttt{JEditorPane}. \texttt{HTML}-versjonen som støttes er versjon 3.2, og \texttt{CSS} 1.0. 
@@ -28,3 +55,4 @@ Det er ikke mulig å plassere komponenter slik man er vant til i dag, og bruk av
 Et problem som vi fortsatt har i Linux, men som virker å være borte i Windows, er at hver gang man høyreklikker i tabellen så må vi gjøre det to ganger for at den skal skifte fokus fra det den holdt på med. Hadde man feks hatt personobjekter i tabellen, og så søker på nytt etter boliger, så kunne man likevel få opp menyen for personobjekter ved det høyreklikket. Høyreklikket man en gang til dukket boligobjektenes meny opp.
 
 \subsection{Genereiske metoder og klasser}
+Det har også oppkommet noen utfordinger gjeldene gjeneriske typer, metoder og klasser. Det er generelt ganske vanskelig å sette seg inn i programmering med generiske typer. Even om kan kjenner til prinsippet og hvordan det skal brukes i programmet så er utfordignen mest relatert til selve syntaksen for generiske variabler. Dette bli spesifikk vanskelig dersom det skal brukes diamantoperator sammen med eventuelle wildcards. Oftest må det til ganske my testing i form av "<try and fail"> før man får frem noe som fungerer på den måte som man har tenkt seg. Under prosjektets gang har det intreffet flere ganger at man har gitt opp en gos løsninge som bygger på generiske typer på grunn av at vi ikke klarte å sette sammen en kode som godtogs av kompilatoren even om at i teorien borde det ha fungert.
