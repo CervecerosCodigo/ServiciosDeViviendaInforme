@@ -597,7 +597,7 @@ Førstnevnte metode itererer igjennom HashSet'et, og sjekker hvorvidt det finnes
 Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Via klassens konstruktør, så tas det imot de vindu objekter vi har behov for å jobbe med.
 Gjennom vinduene sine get-metoder, så kaller vi opp \texttt{getInputMap()}, og \texttt{getActionMap()} metodene tilhørende det aktuelle GUI objektet vi ønsker å legge til en tastatursnarvei til. 
 
-Som parametere i \texttt{getInputMap()} metoden, så brukes det en \texttt{JComponent} konstant for å sikre at den aktuelle tastatursnarveien kan brukes uavhengig av hvor i programvinduet brukeren har fokus. Dette i tilegg til det aktuelle KeyStroke objektet, samt en referanse til bruk i \texttt{getActionMap()} metoden. Sistnevnte metode oppretter et Action objekt av en tilhørende privat klasse, som igjen styrer hvilken handling som skal utføres ved bruk av den aktuelle tastatursnarveien. Eksempel på dette:
+Som parametere i \texttt{getInputMap()} metoden, så brukes det en \texttt{JComponent} konstant for å sikre at den aktuelle tastatursnarveien kan brukes uavhengig av hvor i programvinduet brukeren har fokus. Dette i tilegg til det aktuelle KeyStroke objektet, samt en referanse til bruk i \texttt{getActionMap()} metoden. Som andre parameter i sistnevnte metode oppretter vi et Action objekt av en tilhørende privat klasse, som igjen styrer hvilken handling som skal utføres ved bruk av den aktuelle tastatursnarveien. Eksempel på dette:
 
 \begin{lstlisting}
         annonseVindu.getToppanelAnnonse().getSokeKnapp().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "enterPressed");
