@@ -1,3 +1,20 @@
 \begin{abstract}
-Her kommer et sammendrag av rapporten. Skal normalt være ca en side. Her skal vi skrive om hva vi har gjort, hvorfor, hvordan og hva vi har kommet frem til for resultat. Hensiktet med sammendrag (abstract) er at den skal beskrive hele resultatet på en side uten å behøve lese rapporten. Rett og slett en person som ikke kan noe som helt om programmering skal kunne lese sammendraget og forstå hva rapporten handler om. Vi skal helt vente med å skrive ferdig sammendraget til vi er ferdige med rapporten. 
+Å summere 2 måneders hardt arbeid ned på en side eller to er vanskelig. \\
+Det begynte ganske så greit. Det var en god del diskusjoner den første tiden på hvordan programmet skulle se ut. Spesielt dette med at vi må simulere en virkelighet der man ser for seg boligsøker som sitter hjemme og søker etter boliger, og megler har kontrollen på resten. Det var litt vrient å velge hvordan man skulle tolke oppgaven sånn sett. Den ga mye frihet, og resultatet vi har kommet frem til nå mot slutten er helt annerledes enn det vi opprinnelig skisserte i de første tegningene. \\
+Vi endte opp med en løsning der boligsøker utfører søkene sine i sitt panel, og om en finner en interessant annonse så kan en søke på den. Boligsøker må bekrefte utleier sine krav for boligen før søknaden havner i søknadslisten hos megler. Megler på sin side har myndighet fra utleier til å både opprette boligobjektene og annonsene, samt godkjenne den søknaden han mener er det beste alternativet. Megler skriver så kontrakt med rett boligsøker, på vegne av utleier.
+
+På et tidspunkt før vi begynte selve utviklingen satt vi av en god uke der vi hver for oss skulle lære så mye om \texttt{Swing} som mulig. På de tidspunktet hadde vi ikke nok grunnkunnskap om hva som er mulig rent teknisk og hva vi realistisk kunne få til innenfor tidsrammen.
+
+MVC-arkitektur ble raskt besluttet at vi skulle ha. Skrekkhistorier om java-filer på flere tusen rader, samt at ingen av dem ville kunne gjenbrukes var ikke fristende. Dette var en stor inspirasjonskilde for videre læring og utvikling. Vi ble raskt vant til å finne flere kilder til informasjon enn bare pensum, da våre utfordringer ofte lå godt utenfor pensum.
+
+MVC er egentlig lagdelt arkitektur. Datalaget, brukergrensesnittet og logikken, hver for seg i forskjellige lag, der logikklaget styrer all funksjonalitet. Bare ved å ha de samme to kontrollerne \texttt{ControllerTabell.java} og \texttt{ControllerOutput.java} til å virke både i meglervindu og annonsevindu har vi spart ca 2000 kodelinjer, samt betydelig med tid i forhold til å slippe å oppdatere samme funksjonalitet flere steder.
+Når vi nå nærmer oss slutten på prosjektet, har vi dekket hele oppgavens krav om implementasjon av teknologi, men samtidig lagt til rette for å kunne utvide programmet videre.
+
+Ser man på selve gruppearbeidet og prosessen vår som gruppe, så er det en del lærdom å ta med seg derfra. Det krever mye erfaring å få en gruppe til å være mest mulig produktiv. Å fordele oppgaver som både gir mening og som tar prosjektet fremover er vanskelig, og da alle i gruppen lærte mye av de tekniske underveis, ble det ikke så effektivt som ønskelig. \\
+
+Om en skal summere prosjektet som helhet, er alle i gruppen fornøyde med resultatet. Allerede nå ser vi forbedringer man gjerne skulle gjort om man hadde hatt tid, eller kunne begynt på nytt, men kompleksiteten av de vi har implementert og mengden funksjonalitet som er implementert er vi godt fornøyd med. \\
+
+
+
+
 \end{abstract}

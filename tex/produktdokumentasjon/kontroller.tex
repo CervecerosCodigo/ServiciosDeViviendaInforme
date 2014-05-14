@@ -587,7 +587,13 @@ I dette avsnittet beskrives kun \texttt{ControllerRegistrerBolig.java} men de an
 
 
 
-\subsection{Andre kontrollere}
+\subsection{Innloggingskontroller}
+Innloggingsfunksjonaliteten ble implementert uten at vi har valgt å legge til flere meglere. Det er meningen at alle meglerne skal ha hvert sitt brukernavn og passord og at de får hver sine saker og jobbe med. \\
+\texttt{InnloggingController.java} lytter på arkfanen "megler" og viser et dialogvindu om en prøver å gå inn på megler sitt vindu. Foreløpig er det bare én hardkodet megler som har tilgang, og i det riktig brukernavn og passord skrives inn så dukker programmet opp igjen og man vil ha tilgang til megler og annonse-vinduet frem til programmet avsluttes. Lytteren som brukes er en \texttt{ChangeListener}.
+
+\subsection{Tastatursnarveier: \texttt{ControllerKeyBindings}}
+Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Den oppretter alle de "Events" vi ønsker skal kunne brukes, og så settes det en \texttt{actionPerformed}-lytter på hver av knappene og elementene som skal utføre jobben. Det vil si at når en trykker tastatursnarveien som er "mappet" til en knapp, så ser man at den trykkes ned i det man trykker kombinasjonen.
+
 
 
 \subsection{Lyttere mellom ulike \texttt{kontrollere} i programmet} \label{sec:kontrollerlyttere}
