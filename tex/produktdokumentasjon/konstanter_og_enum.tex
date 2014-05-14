@@ -1,16 +1,20 @@
 \section{Konstanter og Enum}
-Det er brukt konstakter og flere enum typer i programmet, disse finner man i \texttt{lib} pakken. Konstanter er brukt i form av publike static variabler som er tigjenegelige for tvers over hele programmet. Eksepel på dette er regex konstanter og konstanter som f.eks. b rukes til å sette opp størrelse på GUI komponenter som vinduer eller teksfelt. Enum er brukt der vi ønsker å ha mulighet til å identifisere en klassevariabel isteden for å teste f.eks. på en streng hvilket kan være ganske inneffektivt. Eksempel på dette er data i en ikke editerbar komboboks. Dersom vi fyller komboboksen med enumtyper kan vi direkte teste på hva som returneres til kontrollern fra gui isteden for å ta opp å bruke \texttt{equals()} metoden. Enum gir oss også muligheten til å eventuelt implementere metoder direkte i en enum klasse som i sin tur foreta eventuelle beregniger. 
+Det er brukt konstater og flere enum typer i programmet, disse finner man i \texttt{lib} pakken. Konstanter er brukt i form av publike statiske variabler som er tilgjengelige tvers over alle pakker og klasser. Eksempel på dette er regex konstanter og konstanter som f.eks. brukes til å sette opp størrelse på GUI komponenter som vinduer eller teksfelt. 
+Enum for å identifisere identifisere instanser av klasser eller klassevariabel isteden for å teste f.eks. på en streng som en identifikator. Eksempel på dette er data i en \texttt{comboboks}. Dersom vi fyller komboboksen med enumtyper kan vi direkte teste på hva som returneres til kontrollern fra gui isteden for å ta opp å bruke \texttt{equals()} metoden. 
+Enum gir oss også mulighet til implementering av metoder direkte i enum klassen som kan foreta eventuelle beregniger på sine klassevariabler. 
 
 \subsection{RegexTester.java} \label{subsec:regextest}
-Denne klassen er satt sammen med hensikt å definere alle regext tester som foretas i programmet (oftest ved inhentning av data lagt inn fra bruker). Klassen består av publike regex konstanter som kan etter behov hentes opp av metoder som har innebygget regex funksjonalitet men kun behøver en definisjonsstreng med regex mønster. Et godt eksepel på dette er \texttt{CustomJTextField}. Den andre delen av programmet er boolean metoder som "<speiler"> alle regex konstanter og foretar et test på valgt regex kosntant og mottatt tekstreng som en parameter. 
-I eksempel \ref{kode:regex1} presenteres en regex streng som brukes til å kontrolleren en gateadress som må begynne med en sotr bokstav, kan bestå opp til tre ord, deretter må avsluttes med et nummer som består mellom et til tre tall som kan blir etterfølgt av blankt steg og en bokstav som betegner en trappeoppgang.
+Denne klassen er satt sammen med hensikt å definere alle regext tester som foretas i programmet (oftest ved inhentning av data lagt inn fra bruker). 
+Klassen består av publike regex konstanter som kan etter behov hentes opp av metoder der man kun etterspør en streng med et regex mønster, f.eks \texttt{CustomJTextField}.
+Den andre delen av klassen består av boolean metoder som "<speiler"> alle regex streng konstanter og foretar et test på valgt regex kosntant og en mottatt tekststreng som parameter. 
+I eksempel \ref{kode:regex1} presenteres en regex streng som brukes til å kontrollere en gateadress. Adressen må begynne med en stor bokstav, kan være opp til tre ord i lengden, deretter må avsluttes med et nummer opp til tre tall som kan blir etterfølgt av blankt steg og en bokstav (for trappeoppgang).
 
 \begin{lstlisting}[caption=Regexstreng for gateadresse og husnummer.,label=kode:regex1]
 	public static final String GATE_ADRESSE = "^[A-ZÆØÅ]{1}[a-zæøå]{1,20}[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s][1-9]{1}[0-9]{0,2}?[\\s]?[A-ZÆØÅ]{0,1}$";
 \end{lstlisting}
 
-Eksempel \ref{kode:regex2} presenteres privat metoden som bruker java
-sin interne regex metode for å foreta test på mønsteret. Metoden blir kalt opp fra interna klasser som er spesiallaget for hver av regex konstantene (se neste eksempel).
+Eksempel \ref{kode:regex2} presenteres privat metoden som bruker Java
+sin interne regex metode for å foreta test på mønsteret. Metoden blir kalt opp fra intern klasse som er spesiallaget for hver av regex konstantene (se neste eksempel).
 
 \begin{lstlisting}[caption=Private regex test metode., label=kode:regex2]
 	private static boolean patternMatchOK(String input, String regex) {
@@ -24,7 +28,7 @@ sin interne regex metode for å foreta test på mønsteret. Metoden blir kalt op
 \end{lstlisting}
 
 
-I neste eksempel \ref{kode:regex3} vises eksepel på en av metodene som brukes til hver og enkelt definiert regex konstant. Følgende metoder brukes ofte i kontrollene som et andre trinn før et nytt objekt oprettes og leggs til i registeret (første testet blir normalt foretatt i CustomJLabel). Ettersom metoden er \texttt{static} trenger ingen man ikke initialisering av et objekt der metoden skal brukes. 
+I eksempel \ref{kode:regex3} presenteres som "<speiler"> hver enkelregex string konstant i klassen. Følgende metoder brukes i kontrollene som et andre kontroll trinn da et nytt objekt skal opprettes og legges til i registeret (første testet blir normalt foretatt i CustomJLabel med visuell \textit{feedback}). Ettersom metoden er \texttt{static} trenger den ikke å bli initialisert. 
 
 
 \begin{lstlisting}[caption=Static regex metode til tilhørende regex møsnter streng., label=kode:regex3]
@@ -35,7 +39,7 @@ I neste eksempel \ref{kode:regex3} vises eksepel på en av metodene som brukes t
 
 
 \subsection{Konstanter.java} \label{subsec:konstanter}
-Klassen består av fleretall publike konstantanter lagret som static variabler som er tilgjengelige for alle klasser i programmet uten instansiering av klassen. I eksempel \ref{kode:konst1} presenteres noen av de konstanter som er satt opp i klassen. Eksemplet viser et kort utdrag for å presentere strukturen som brukes gjennom hele klassen.
+Klassen består av flere publike konstanter lagret som static variabler som er tilgjengelige for alle klasser i programmet. I eksempel \ref{kode:konst1} presenteres noen av de konstantene som er satt opp i klassen. Eksempel \ref{kode:konst1} viser et kort utdrag for å presentere strukturen som brukes gjennom hele klassen.
 
 \begin{lstlisting}[caption=Noen av static kosntanter som brukes i Konstanter klassen., label=kode:konst1]
     /**
@@ -66,17 +70,17 @@ Klassen består av fleretall publike konstantanter lagret som static variabler s
 \end{lstlisting}
 
 \subsection{GUI konstanter} \label{subsec:guikonst}
-Disse er konstanter som brukes for å sette opp felles størrelse på alle komponenter i brukergrensesnittet. Disse består av to klasser:
+Følgende er konstanter som brukes for å sette opp en førdefiniert størrelse på alle komponenter i brukergrensesnittet. De består av to klasser:
 \begin{description}
 
 \item[\texttt{VinduStorrelse.java}]
-En enum klasse som returnerer alle størrelse på vinduer som brukes i programmet. Den kan også brukes får å hente opp kun bredde eller høyde for et spesifikk vindu. Eksempel over klassens datafelt og  konstruktør presenteres i eksepel \ref{kode:guikonst1}. 
+En enum klasse som returnerer alle størrelse på vinduer som brukes i programmet. Den kan også brukes får å hente opp kun bredde eller høyde for et spesifikk vindu. Eksempel over klassens datafelt og  konstruktør presenteres i eksempel \ref{kode:guikonst1}. 
 
 \item[\texttt{GuiSizes.java}]
 En klasse med konstanter som brukes til nå sette opp interne \texttt{swing} komponenter som f.eks. bredde på \texttt{CustomJTextfield} eller \texttt{CustomJButton}.
 
 \item[\texttt{Ikoner.java}]
-Brukes til å hente opp referanser til alle ikoner som brukes tvers i hele programmet. Static konstanten blir satt opp som en \texttt{ImageIcon} variable som kan deretter brukes direkte for å sette opp et bilde i en \texttt{JPanel} eller ander komponenter. Et kort eksempel over hvordan klassen er satt opp finnes i eksepel \ref{kode:guikonst2}.
+Brukes til å hente opp referanser til alle ikoner som brukes tvers i hele programmet. Static konstanten blir satt opp som en \texttt{ImageIcon} variable som deretter kan brukes direkte for å sette opp et bilde i en \texttt{JPanel} eller liknende. Et kort eksempel over hvordan klassen er satt opp finnes i eksempel \ref{kode:guikonst2}.
 \end{description}
 
 \begin{lstlisting}[caption=Enum klasse for vindustørrelser, label=kode:guikonst1]
@@ -127,14 +131,15 @@ public class Ikoner {
 I \texttt{lib} pakken er det satt opp flere klasser av enum type, en enum klasse ble forklart i avsnitt \ref{subsec:guikonst}. De resterende enum klassene som brukes i programmet er:
 \begin{description}
 \item[\texttt{Boligype.java}]
-Definerer de forksjellige boligtypene som: \textit{Enebolig, Tomannsbolig, Rekkehus, Leilighet, Andre}. I programmet i dagens dato brukes det kun \textit{Enebolig} og \textit{Leilighet}. Enum klassen tar dog forbehold av viderutvikling av programmet gjennom å innkludere andre boligtyper.
+Definerer de forskjellige boligtypene som: \textit{Enebolig, Tomannsbolig, Rekkehus, Leilighet, Andre}. I programmet i dagens dato brukes det kun \textit{Enebolig} og \textit{Leilighet}. Enum klassen tar dog forbehold for viderutvikling av programmet gjennom å inkludere andre boligtyper.
 \item[\texttt{Sivilstatus.java}]
 Brukes for populering av kombobokser ved registrering av en ny boligsøker. Enum typen blir distribuert direkte mellom kombobks og kontroller.
 \item[\texttt{Arbeidsforhold.java}]
 Fungerer på sammen måte som \texttt{Sivilstatus.java} og brukes til sammen funksjoner i programmet med tar for seg boligsøkerens arbeidsforhold.
 \item[\texttt{Objekttype.java}]
-Brukes til å definere hvilken objekttype som sendes over i flere transsakjsoner i programemt. Et eksepel på dette er renderering av tabell som blir satt etter hvilket objektytpe som blir satt via enum. Denne klassen spesifiserer objekttype på en øvre novå hvilket betyr at objektene blir spsifisert på superklasse nivå, f.eks gjør denne enum typen ingen forskjell på objekttype \texttt{Utleier} eller \texttt{Leietaker} uten kan kun vise at objektet som sendes over er av type \texttt{Person}.
+Brukes til å definere hvilken objekttype som sendes over i flere transaksjoner i programmet. Et eksempel på dette er renderering av tabell som blir satt etter hvilket objektytpe som er definiert i enum. 
+Klassen spesifiserer objekttype på en øvre nivå, hvilket betyr at objektene blir spesifisert på superklasse nivå. Eksempelvis gjør denne enum typen ingen forskjell på objekttype \texttt{Utleier} eller \texttt{Leietaker} uten kan kun vise at objektet som sendes over er av type \texttt{Person}.
 \item[\texttt{Objekttype2.java}]
-Fungerer og brukes på samme måte som \texttt{Objekttype.java} med innholder detaljert informasjon over hvilke objekter som kan passeres mellom transaksjonene. Her gjør vi altså forskjell mellom underliggende klasser som \texttt{Utleier} og \texttt{Leietaker}.
+Fungerer og brukes på samme måte som \texttt{Objekttype.java} med inneholder detaljert informasjon over hvilke objekter som kan passeres mellom transaksjonene. Her gjør vi altså forskjell mellom underliggende klasser som \texttt{Utleier} og \texttt{Leietaker}.
 
 \end{description}
