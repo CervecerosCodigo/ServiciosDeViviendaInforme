@@ -71,7 +71,7 @@ I \texttt{actionPerformed}-metoden vil det testes for hvilket datasett som ligge
     }
 \end{lstlisting}
 
-\subsection{\texttt{ControllerOutput.java}}
+\subsection{\texttt{ControllerOutput.java}} \label{subsec:contout}
 \texttt{SenterPanel.java} har én komponent som viser valgt objekt i tabellen i \texttt{HTML}visning. Alle metodene i denne klassen er statiske. De skal ikke behandle objekter, bare vise dem. Denne \texttt{kontrolleren} er derfor ikke instansiert noe sted. \\
 Alle "\texttt{HTML}-metodene" tar i mot \texttt{JEditorPane}-komponenten det skal skrives til, i hvilket vindu man befinner seg i, objektet som skal vises og eventuelt et eller flere \texttt{HashSet} om en trenger ytterligere informasjon i utskriften.
 
@@ -104,7 +104,7 @@ I prosessen har vi endret tabellens datastruktur to ganger. Først ble det blant
 
 Metoden \texttt{settOppTabellLyttere} gjør litt mer enn bare å sette opp \texttt{lyttere}. Først initialiserer den \texttt{ControllerBunnPanel.java} sin private \texttt{lytteklasse}. \\
 Videre kalles metoden \texttt{settOpplyttereForPopupMenyITabell} som definerer funksjonaliteten til \texttt{PopupMenu} når en høyreklikker i tabellen. Les mer om den på \ref{sec:interaktivitettabell}, på side \pageref{sec:interaktivitettabell}. \\
-Metoden kobler så tabellen og popupmenyen sammen via tabellens \texttt{setComponentPopUpMenu}-metode, før den initialiserer slettefunksjonalitet i tabellen når en bruker \texttt{Delete}-knappen på tastaturet. Se eksempel:
+Metoden kobler så tabellen og popupmenyen sammen via tabellens \texttt{setComponentPopUpMenu}-metode, før den initialiserer slette funksjonalitet i tabellen når en bruker \texttt{Delete}-knappen på tastaturet. Se eksempel:
 
 
 \begin{lstlisting}[caption=Slettefunksjonalitet i tabellen ved å trykke Delete på tastaturet]
@@ -291,7 +291,7 @@ Hele metoden er gjengitt her:
         
 \end{lstlisting}
 
-Som man ser av metoden ovenfor så er det en del instruksjoner som gjøres for hvert datasett, men også noen unike for det enkelte datasett. Feks så ser man at \texttt{Søknadsobjektene} sorteres med den tidligere metoden for den typen objekter. Til slutt i metoden så kjøres "resize"-metoden og formateringsmetoden. 
+Som man ser av metoden ovenfor så er det en del instruksjoner som gjøres for hvert datasett, men også noen unike for det enkelte datasett. F.eks så ser man at \texttt{Søknadsobjektene} sorteres med den tidligere metoden for den typen objekter. Til slutt i metoden så kjøres "resize"-metoden og formateringsmetoden. 
 
 \subsubsection{\texttt{Muselyttere} og interaktivitet i tabellen} \label{sec:interaktivitettabell}
 
@@ -326,7 +326,7 @@ De resterende \texttt{lytterne} er forskjellige "muse-\texttt{lyttere}, som resp
 
 Den følgende \texttt{lytteren} som settes opp er del av tabellen sin \texttt{MouseAdapter}-implementasjon på lik linje som den som følger etter denne. \\
 \texttt{mouseClicked}-hendelsen når en dobbelklikker på en rad i tabellen vil starte opp registreringsvinduet for det valgte objektet og fylle ut all informasjon om objektet ut fra det som allerede er registrert. Så kan man endre objektet og trykk OK for å oppdatere objektet. \\
-Eksempelet nedenfor dekker bare \texttt{Bolig}-objekter. Det settes en \texttt{lytter} på \texttt{kontrolleren} til registreringsvinduet som er koblet til \texttt{actionPerformed}-metoden til vinduet. I det man trykker OK så vil metoden \texttt{oppdaterTabellEtterEndring} kalles og den den tilhørende \texttt{TabellModell} vil oppdateres. Det vil si at tabellens innhold vil oppdatere seg med den nye endringer. Det forutsetter at man har rett \texttt{TabellModell} valgt. Feks så kan en ikke stå i \texttt{TabellModellPerson} og så opp endringene for en ny bolig som ble lagt til. 
+Eksempelet nedenfor dekker bare \texttt{Bolig}-objekter. Det settes en \texttt{lytter} på \texttt{kontrolleren} til registreringsvinduet som er koblet til \texttt{actionPerformed}-metoden til vinduet. I det man trykker OK så vil metoden \texttt{oppdaterTabellEtterEndring} kalles og den den tilhørende \texttt{TabellModell} vil oppdateres. Det vil si at tabellens innhold vil oppdatere seg med den nye endringer. Det forutsetter at man har rett \texttt{TabellModell} valgt. F.eks så kan en ikke stå i \texttt{TabellModellPerson} og så opp endringene for en ny bolig som ble lagt til. 
 Tabellens \texttt{TabellModeller} vil diskuteres i avsnittet \ref{sec:virkemåtetabell}, på side \pageref{sec:virkemåtetabell}.
 
 \begin{lstlisting}[caption=Hendelse ved dobbelklikking på et objekt i tabellen]
@@ -349,12 +349,12 @@ Tabellens \texttt{TabellModeller} vil diskuteres i avsnittet \ref{sec:virkemåte
 
 
 Den siste lytteren i metoden \texttt{settOppTabellLyttere} er \texttt{mouseReleased}-funksjonen på høyremuseknapp.
-Det vil si når man høyreklikker i tabellen så vil en popupmeny dukke frem. De menyvalgene som dukker frem er avhengige av hvilket datasett man jobber på. Feks så kan man ikke høyreklikke på en annonse og så opp "Ny Bolig".
+Det vil si når man høyreklikker i tabellen så vil en pop-up meny dukke frem. De menyvalgene som dukker frem er avhengige av hvilket datasett man jobber på. F.eks så kan man ikke høyreklikke på en annonse og så opp "Ny Bolig".
 
-Det første uttdraget fra koden gjelder for hvilket menyvalg som er tilgjenglig når en høyreklikker på en boligobjekt og et personobjekt. 
-Det andre utdraget vil være fra metoden \texttt{settOpplyttereForTabellMenyITabell} som spesifiserer fuksjonaliteten til selve menyvalgene i popupmenyen.
+Det første utdraget (eks. \ref{kode:eks1}) fra koden gjelder for hvilket menyvalg som er tilgjenglig når en høyreklikker på en boligobjekt og et personobjekt. 
+Det andre utdraget (eks. \ref{kode:eks2})vil være fra metoden \texttt{settOpplyttereForTabellMenyITabell} som spesifiserer fuksjonaliteten til selve menyvalgene i pop-up menyen.
 
-\begin{lstlisting}[caption=Eksempel på hvilke menyvalg som dukker opp ved høyreklikk i tabellen]
+\begin{lstlisting}[caption=Eksempel på hvilke menyvalg som dukker opp ved høyreklikk i tabellen.,label=kode:eks1]
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -383,8 +383,8 @@ Det andre utdraget vil være fra metoden \texttt{settOpplyttereForTabellMenyITab
                         }
 \end{lstlisting} 
 
-Og så eksempelet på funksjonaliteten til to av menyvalgene i popupmenyen.
-\begin{lstlisting}[caption=Funksjonalitet for to av popupmenyens valg]
+
+\begin{lstlisting}[caption=Funksjonaliteten til to av menyvalgene i pop-up menyen.,label=kode:eks2]
 
     public void settOpplyttereForPopupMenyITabell() {
 
@@ -432,8 +432,7 @@ Og så eksempelet på funksjonaliteten til to av menyvalgene i popupmenyen.
 
 
 \subsubsection*{\texttt{AbstractControllerRegister.java}}
-Alle kontrollere for registrerings vinduer finnes i pakken \texttt{controller.register}. Samtlige av disse kontrollene arver \texttt{AbstractControllerRegister.java} som er superklasse til registerkontrollene. Superklassen brukes til å håndetere lesing og skrvning av objekter til alle \texttt{HashSet} som brukes i de kontrollene. Klassen gjør at koden for lesing og skriving blir arvet av hver enkel kontroller. Ettersom det brukes flere forskjellige \texttt{HashSet} i programmet er superklassen satt opp med generisk parametre og begrenset til \texttt{Collection.Set.HashSet<E>}. Superklassen består av to konstruktører, den første blir kalt opp men et set som parameter og brukes ved registrering av nytt objekt f.eks. ny bolig. Nødvendige parametre for opprettelse av objektet blir hentet opp fra gui gjennom en kontroller som arver den superklassen. Den andre konstruktøren tas i bruk dersom et boligobjekt skal editeres og derfor det blir sent med et set og et generelt objekt som blir sendt fra markeringen i tabellen. Slik løsning er valgt etterom \texttt{HashSet} ikke tillater duplikater hvilket er en automatisk mekanisme for å unngå dobbelregistreringa av data i registrene. Dersom man skal dog gjennomføre endringer i et eksisterende objektet i settet må det objektet plokkes ut fra set, slettes i set, deretter kan datafelt oppdateres og legges tilbake i settet. Derfor blir objektet som skal endres direkte sendt med til den andre konstruktøren i superklassen.
-
+Alle kontrollere for registrerings vinduer finnes i pakken \texttt{controller.register}. Samtlige av disse kontrollene arver \texttt{AbstractControllerRegister.java} som er superklasse til registerkontrollene. Superklassen brukes til å håndtere lesing og skrivning av objekter til alle \texttt{HashSet} som brukes i de kontrollene. Klassen gjør at koden for lesing og skriving blir arvet av hver enkel kontroller. Ettersom det brukes flere forskjellige \texttt{HashSet} i programmet er superklassen satt opp med generisk parametre og begrenset til \texttt{Collection.Set.HashSet<E>}. Superklassen består av to konstruktører, den første blir kalt opp med en mengde som parameter og brukes ved registrering av nytt objekt f.eks. ny bolig. Nødvendige parametre for opprettelse av objektet blir hentet opp fra gui gjennom en kontroller som arver den superklassen. Den andre konstruktøren tas i bruk dersom et boligobjekt skal editeres, derfor blir det sent med et set og et generelt objekt som blir sendt fra markeringen i tabellen. Slik løsning er valgt etterom \texttt{HashSet} ikke tillater duplikater, hvilket brukes som en automatisk mekanisme for å unngå dobbelregistrering av data i registrene. Dersom man skal gjennomføre endringer i et eksisterende objekt i settet, må det objektet plukkes ut fra mengde, slettes fra mengde, deretter kan datafelt oppdateres og legges tilbake i mengden. Derfor blir objektet som skal endres direkte sendt med til den andre konstruktøren i superklassen.
 
 
 \begin{lstlisting}[caption=\texttt{AbstractControllerRegister.java} kontroller arvet av alle regsitreringskontrollerene.,label=kode:contreg1]
@@ -558,7 +557,7 @@ Den andre konstruktøren som finnes med i klassen tar med set HashSet og et boli
     }
 \end{lstlisting}
 
-En viktig funksjon i alle kontrollene til registreringsvinduer er initialisering av lyttere i dissse klasser. Eller registreingsvinduer har en metode som kan sette en \texttt{ActionListener} til vinduene som blir sendt fra en kontrollere klasse. Hver kontrollerklasse innholder en privat kontroller klasse \texttt{KnappeLytter} (implementerer ActionListener), se eksempel \ref{kode:regex_bolig3}. Den private klassen blir altid instasiert fra konstruktøren il registringskontrollere og sendt som parameter til vinduklassen (etter MVC arkitektur).
+En viktig funksjon i alle kontrollene til registreringsvinduer er initialisering av lyttere i disse klasser. Eller registreingsvinduer har en metode som kan sette en \texttt{ActionListener} til vinduene som blir sendt fra en kontrollere klasse. Hver kontrollerklasse innholder en privat kontroller klasse \texttt{KnappeLytter} (implementerer ActionListener), se eksempel \ref{kode:regex_bolig3}. Den private klassen blir alltid instasiert fra konstruktøren til registringskontrollere og sendt som parameter til vinduklassen (etter MVC arkitektur prinsipper).
 
 \begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Uttdrag fra privat lytterklasse i kontrolleren.,label=kode:regex_bolig3]
     private class KnappeLytter implements ActionListener {
@@ -573,7 +572,7 @@ En viktig funksjon i alle kontrollene til registreringsvinduer er initialisering
 \end{lstlisting}
 
 
-Pakken for registreringskontrolene består av totalt seks klasser:
+Pakken for registreringskontrollene består av totalt seks klasser:
 \begin{itemize}[noitemsep,nolistsep]
 \item \texttt{AbstractControllerRegister.java}
 \item \texttt{ControllerRegistrerAnnonse.java}
@@ -583,16 +582,16 @@ Pakken for registreringskontrolene består av totalt seks klasser:
 \item \texttt{ControllerRegistrerUtleier.java}
 \end{itemize}
 
-I dette avsnittet beskrives kun \texttt{ControllerRegistrerBolig.java} men de andre klassene i denne pakken har mer eller mindre densamme funkjsonalitet. Det som er den største forskjellen mellom disse er preliminær t forskjellige antall tekstfelt i vinduene og noen andre typer at datafelt (f.eks. Calenderobjekt). Ettersom funksjonaliteten og strukturen på de klassene er så lik den klassen som beskrives i dette avsnittet her kommer vi ikke til å beskrive disse i detalj. For de spesielt interesserede henviser vi derfor til kildekoden (pakke \texttt{controller.register}).
+I dette avsnittet beskrives kun \texttt{ControllerRegistrerBolig.java} men de andre klassene i denne pakken har mer eller mindre densamme funksjonalitet. Det som er den største forskjellen mellom disse er preliminær t forskjellige antall tekstfelt i vinduene og noen andre typer at datafelt (f.eks. Calenderobjekt). Ettersom funksjonaliteten og strukturen på de klassene er så lik den klassen som beskrives i dette avsnittet her kommer vi ikke til å beskrive disse i detalj. For de spesielt interesserede henviser vi derfor til kildekoden (pakke \texttt{controller.register}).
 
 
 
 \subsection{Innloggingskontroller}
 Innloggingsfunksjonaliteten ble implementert uten at vi har valgt å legge til flere meglere. Det er meningen at alle meglerne skal ha hvert sitt brukernavn og passord og at de får hver sine saker og jobbe med. \\
-\texttt{InnloggingController.java} lytter på arkfanen "megler" og viser et dialogvindu om en prøver å gå inn på megler sitt vindu. Foreløpig er det bare én hardkodet megler som har tilgang, og i det riktig brukernavn og passord skrives inn så dukker programmet opp igjen og man vil ha tilgang til megler og annonse-vinduet frem til programmet avsluttes. Lytteren som brukes er en \texttt{ChangeListener}.
+\texttt{InnloggingController.java} lytter på arkfanen "megler" og viser et dialogvindu om en prøver å gå inn på megler sitt vindu. Foreløpig er det bare én "<hardkodet"> megler som har tilgang, og i det riktig brukernavn og passord skrives inn så dukker programmet opp igjen og man vil ha tilgang til megler og annonse-vinduet frem til programmet avsluttes. Lytteren som brukes er en \texttt{ChangeListener}.
 
 \subsection{Tastatursnarveier: \texttt{ControllerKeyBindings}}
-Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Den oppretter alle de "Events" vi ønsker skal kunne brukes, og så settes det en \texttt{actionPerformed}-lytter på hver av knappene og elementene som skal utføre jobben. Det vil si at når en trykker tastatursnarveien som er "mappet" til en knapp, så ser man at den trykkes ned i det man trykker kombinasjonen.
+Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Den oppretter alle de "Events" vi ønsker skal kunne brukes, og så settes det en \texttt{actionPerformed}-lytter på hver av knappene og elementene som skal utføre jobben. Det vil si at når en trykker tastatursnarveien som er "<mappet"> til en knapp, så ser man at den trykkes ned i det man trykker kombinasjonen.
 
 
 
@@ -607,7 +606,7 @@ Vi har et \texttt{interface} som heter \texttt{ListListenerInterface.java} som h
 
 \texttt{ControllerToppPanelAnnonse.java} har en metode som dette:
 
-\begin{lstlisting}[caption=Kodesnutt nummer 1: \texttt{setListListener}-metoden fra \texttt{ControllerToppPanelAnnonse.java}]
+\begin{lstlisting}[caption=\texttt{setListListener}-metoden fra \texttt{ControllerToppPanelAnnonse.java},label=kode:snutt1]
     public void setListListener(ListListenerInterface listListener) {
         this.listListener = listListener;
     }
@@ -615,7 +614,7 @@ Vi har et \texttt{interface} som heter \texttt{ListListenerInterface.java} som h
 
 Metoden blir kalt opp allerede i \texttt{konstruktøren} til \texttt{MainController.java} under oppstart av programmet, via denne instruksjonen:
 
-\begin{lstlisting}[caption=Kodesnutt nummer 2: Setter lytter fra \texttt{MainController.java}]
+\begin{lstlisting}[caption=Setter lytter fra \texttt{MainController.java},label=kode:snutt2]
         toppPanelControllerAnnonse.setListListener(new ListListenerInterface() {
 
             @Override
@@ -633,7 +632,7 @@ Metoden blir kalt opp allerede i \texttt{konstruktøren} til \texttt{MainControl
 \end{lstlisting}
 
 Foreløpig er det ikke en fungerende løsning. I \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java} så ligger følgende instruksjon helt til slutt:
-\begin{lstlisting}[caption=Kodesnutt nummer 3: Utdrag fra \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java}]
+\begin{lstlisting}[caption=Utdrag fra \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java},label=kode:snutt3]
 
             else if (listListener != null) {
                 listListener.listReady(sokeResultat, radioTypeValgt);
@@ -641,6 +640,6 @@ Foreløpig er det ikke en fungerende løsning. I \texttt{sendSokeResultat}-metod
 \end{lstlisting}
 
 Det som skjer nå er at hver gang det blir gjort et søk så kalles \texttt{lytteren listListener} sin \texttt{listReady}-funksjon opp, der det sendes med søkeresultatet og en identifikator på hvilken type objekter som finnes i søkeresultatet.\\
-Hvis man ser på kodesnutt nummer 2, så er det her det nå kommer inn et datasett fra \texttt{Toppanelet} og det sendes da videre til rett metode i \texttt{ControllerTabell}.\\
+Hvis man ser på kodeeksempel \ref{kode:snutt2} så er det her det nå kommer inn et datasett fra \texttt{Toppanelet} og det sendes da videre til rett metode i \texttt{ControllerTabell}.\\
 Her har vi altså brukt et \texttt{interface} til å være bindeledd mellom komponenter som eller ikke kjenner til hverandre. Det samme gjøres i uttstrakt bruk i tabellens "museklikk"-metoder, både ved høyreklikk og dobbelklikk er det hengt på en \texttt{lytter} som vet når noe er utført og en \texttt{event} skal utføres.
  
