@@ -588,11 +588,30 @@ I dette avsnittet beskrives kun \texttt{ControllerRegistrerBolig.java} men de an
 
 
 \subsection{Innloggingskontroller}
-Innloggingsfunksjonaliteten ble implementert uten at vi har valgt å legge til flere meglere. Det er meningen at alle meglerne skal ha hvert sitt brukernavn og passord og at de får hver sine saker og jobbe med. \\
-\texttt{InnloggingController.java} lytter på arkfanen "megler" og viser et dialogvindu om en prøver å gå inn på megler sitt vindu. Foreløpig er det bare én hardkodet megler som har tilgang, og i det riktig brukernavn og passord skrives inn så dukker programmet opp igjen og man vil ha tilgang til megler og annonse-vinduet frem til programmet avsluttes. Lytteren som brukes er en \texttt{ChangeListener}.
+Denne kontrollern lytter på arkfanen \texttt{Megler} via. en \texttt{ChangeListener}}. Dersom nevnt arkfane blir valgt, så sjekkes det hvorvidt man allerede er innlogget eller ei via. en static boolean variabel som er satt til \texttt{false} som standard. Dersom en ikke er innlogget, så vil man få mulighet til å logge inn via. JDialog \texttt{LoggInnDialog.java}. Av enkelhets skyld, så har vi hardkodet en admin brukerkonto som kan brukes midlertidig, for å logge inn. Hjelpemetoden \texttt{sjekkAdmin()} eksisterer i sammenheng med dette. 
+
+Klassen mottar et \texttt{HashSet<Person>} fra \texttt{Maincontroller.java} via. konstruktøren, som inneholder alle person objekter lagret på fil, inkludert evnt. megler brukerkontoer. Innloggingsknappen tilhørende \texttt{LoggInnDialog.java}, lyttes på via en \texttt{ActionListener}. Dersom knappen trykkes på, så kalles metoden \texttt{sjekkInformasjon()} opp, i tilegg til nevnt hjelpemetode \texttt{sjekkAdmin()}. 
+Førstnevnte metode itererer igjennom HashSet'et, og sjekker hvorvidt det finnes en megler med det aktuelle brukernavnet og passordet, som er skrevet inn i LoggInnDialog vinduet. Ved en match, så blir boolean variabelen \texttt{innlogget} satt til \texttt{true}, og brukeren vil bli videreført til Megler arkfanen. Dersom det ikke blir funnet en match, får brukeren beskjed om dette gjennom et \texttt{JOptionPane.showMessageDialog()} vindu. Ved å trykke på avbryt i innloggingsvinduet, blir brukeren brakt tilbake igjen til Annonse arkfanen. 
 
 \subsection{Tastatursnarveier: \texttt{ControllerKeyBindings}}
-Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Den oppretter alle de "Events" vi ønsker skal kunne brukes, og så settes det en \texttt{actionPerformed}-lytter på hver av knappene og elementene som skal utføre jobben. Det vil si at når en trykker tastatursnarveien som er "mappet" til en knapp, så ser man at den trykkes ned i det man trykker kombinasjonen.
+Denne kontrolleren mapper opp alle tastatursnarveier man kan bruke for å navigere i programmet. Via klassens konstruktør, så tas det imot de vindu objekter vi har behov for å jobbe med.
+Gjennom vinduene sine get-metoder, så kaller vi opp \texttt{getInputMap()}, og \texttt{getActionMap()} metodene tilhørende det aktuelle GUI objektet vi ønsker å legge til en tastatursnarvei til. 
+
+Som parametere i \texttt{getInputMap()} metoden, så brukes det en konstant \texttt{JComponent.WHEN_IN_FOCUSED_WINDOW} for å sikre at den aktuelle tastatursnarveien kan brukes uavhengig av hvor i programvinduet brukeren har fokus. Dette i tilegg til det aktuelle KeyStroke objektet, samt en referanse til bruk i \texttt{getActionMap()} metoden. Sistnevnte metode oppretter et Action objekt av en tilhørende privat klasse, som igjen styrer hvilken handling som skal utføres ved bruk av den aktuelle tastatursnarveien. Eksempel på dette:
+
+\begin{lstlisting}
+        annonseVindu.getToppanelAnnonse().getSokeKnapp().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "enterPressed");
+        annonseVindu.getToppanelAnnonse().getSokeKnapp().getActionMap().put("enterPressed", new EnterActionAnnonse());
+    }
+
+    private class EnterActionAnnonse extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            annonseVindu.getToppanelAnnonse().getSokeKnapp().doClick();
+        }
+    }
+\end{lstlisting}    
 
 
 
