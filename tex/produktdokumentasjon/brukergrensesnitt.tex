@@ -1,6 +1,6 @@
 \section{Brukergrensesnitt \texttt{(View)}} \label{sec:brukergrensesnitt}
 
-Dette deltkapittelet er litt overlappende med kapittelet "Swing-komponenter". Les gjerne mer om det her \ref{sec:swing} \pageref{sec:swing}.
+Dette delkapittelet er litt overlappende med kapittelet "Swing-komponenter". Les gjerne mer om det her \ref{sec:swing} \pageref{sec:swing}.
 
 \subsection{Oppstart av brukergrensesnittet}
 I \texttt{MainController.java} instansieres først to Arkfaner, \texttt{ArkfaneMegler.java} og \texttt{ArkfaneAnnonse.java}.
@@ -17,13 +17,12 @@ Se illustrasjonen nedenfor.
 
 
 \subsection{Bruk av arv i brukergrensesnittet}
-Brukergrensesnitt er utrolig tidkrevende å jobbe med, og veldig mye av det man gjør er å skrive samme kode for hvert enkelt vindu.
+Brukergrensesnitt er utrolig tidskrevende å jobbe med, mye av det man gjør er å skrive samme kode for hvert enkelt vindu.
 For å unngå dette mest mulig, samt å få alle vinduer og paneler til å ha mest mulig den samme følelsen har vi noen abstrakte klasser som vi arver på tvers av alle klassene som har med brukergrensesnitt å gjøre.
 
 
 \subsubsection*{\texttt{AbstractPanel.java}}
-Dette panelet arver \texttt{JPanel} og er superklassen til alle andre hovedvinduer og paneler i programmet.
-Denne klassen har to \texttt{konstruktører}. Den ene tar inn to heltall som representerer bredde og høyde på det panelet som arver klassen, samt en \texttt{String borderTitle} som blir tittel på kantlinjen som \texttt{konstruktøren} oppretter.
+Dette panelet arver \texttt{JPanel} og er superklassen til alle andre hovedvinduer og paneler i programmet, klassen inneholder to \texttt{konstruktører}. Den ene tar inn to heltall som representerer bredde og høyde på det panelet som arver klassen, samt en \texttt{String borderTitle} som blir tittel på kantlinjen som \texttt{konstruktøren} oppretter.
 Den andre \texttt{konstruktøren} er omtrent lik, men tar ikke inn en \texttt{String} for kantlinje, så her kan man velge mellom to \texttt{konstruktører}, med eller uten kantlinje.
 Dette panelet er også satt med en bakgrunnsfarge slik at alle paneler og vinduer som arver denne vil arve denne.
 
@@ -69,7 +68,7 @@ Alle \texttt{kontrollerne} er "klar" over sitt vindu, og nedenfor er et eksempel
 I figuren ovenfor kan man både få tak i \texttt{vindu} sine paneler, men også teste om \texttt{vindu} er av type \texttt{ArkfaneMegler} eller ikke. Tidligere i prosjektet brukte vi \texttt{konstanter} som ble sendt med som parametere for å identifisere hvilke vindu man var i, og hvilken objekttype man behandlet til en hver tid.
 
 
-\subsubsection*{\texttt{TopPanelMegler.java, TopPanelAnnonse.java, VenstrePanel.java, SenterPanel.java} og \texttt{BunnPanel.java}}
+\subsubsection*{\texttt{TopPanelMegler.java}, \texttt{TopPanelAnnonse.java}, \texttt{VenstrePanel.java}, \texttt{SenterPanel.java} og \texttt{BunnPanel.java}}
 De tre nevnte panelene utgjør innholdet i hver av arkfanene. 
 Da all funksjonalitet finnes i de respektive \texttt{kontrollerne} er hver av disse klassene ganske små. De består i grunn bare av en \texttt{Layout} samt den/de komponentene som vises, inkludert subpaneler samt \texttt{get-metoder} en trenger for å kunne hente informasjon derfra.
 Det er brukt forskjellige \texttt{Layout-managere}, alt etter hvilken som er mest hensiktsmessig i den gitte situasjon.
@@ -80,7 +79,7 @@ I \texttt{VenstraPanel.java} og \texttt{SenterPanel.java} har man bare én kompo
 
 \subsection{Registreringsvinduene}
 Registreringsvinduene er bygget over samme lest, og arver \texttt{AbstractRegistreringsPanel}. De er likevel ganske forskjellige. De bruker et utall forskjellige \texttt{Layout-managere}, og ofte en blanding mellom flere. 
-\texttt{GridBagLayout} er likevel den mest allsidige og foretrukne \texttt{Layout-manageren} vi har brukt. 
+\texttt{GridBagLayout} er allikevel den mest allsidige og foretrukne \texttt{Layout-manageren} vi har brukt. 
 
 Så og si alle komponentene vi har brukt er \texttt{Custom...}. Det vil si egendefinerte komponenter vi har laget, og som arver den opprinnelige \texttt{Swing}-komponenten. 
 Det beste eksempelet her er \texttt{CustomJTextField.java} som blant annet tar inn et \texttt{String pattern} som er en \texttt{RegEx}-konstant, slik at komponenten har innebygget \texttt{RegEx}-funksjonalitet.
