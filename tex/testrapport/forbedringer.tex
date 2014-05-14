@@ -6,6 +6,10 @@ Dette er likevel en veldig tidkrevende implementasjon som ville krevd mer tid en
 Det gjelder like mye å finne ut hvilke datafelt hvert enkelt objekt burde ha. Alle objektene burde ha litt mer fyldig innhold, om ikke under opprettelsen ab objektet så at det kan settes senere.
 
 \subsubsection{Utvidet funksjonalitet i tabellen}
-Tabellens implementasjon er veldig vellykket, men mulighetene en tabell tilbyr er også enorme. Vi valgt å bare ha 4 kolonner tilgjengelig for brukeren, men en kan se for seg at man kunne skjule "output-vinduet" og få en mye bredere tabell, som da også ville gitt bedre mulighet for å kunne editere objekter direkte i tabellen.
+Tabellens implementasjon er veldig vellykket, men mulighetene en tabell tilbyr er også enorme. Vi valgt å bare ha 4 kolonner tilgjengelig for brukeren, men en kan se for seg at man kunne skjule "output-vinduet" og få en mye bredere tabell, som da også ville gitt bedre mulighet for å kunne editere objekter direkte i tabellen. \\
+En kunne også se for seg filtrering direkte i tabellen i stedet for eller i tillegg til dagens søkefunksjon.
 
-\subsubsection{}
+\subsubsection{Generell kommunikasjon i programmet}
+Vi ga oss selv relativt store utfordringer da vi valgt MVC-arkitektur gjennom hele programmet samtidig som vi ønsket en tabell som responderer i det man gjør endringer. Vi har ikke hatt tid til å få tabellen til å respondere på absolutt alle endringer fra alle forskjellige vinkler. Med vinkler menes hvor man trykker for å få utført en operasjon. I det man klikker på "Ny Utleier"-knappen i toppanelet så utføres det fra en annen plass enn om en høyreklikker i tabellen og velger ny person. \\
+Om mulig burde det lages en "kommunikasjonssentral" som alltid kjenner til og oppfatter alle hendelser. I det man er i et registreringsvindu så har man ikke kontakt med hovedprogrammet. Vi har løst dette så godt som mulig ved å sendes oppdateringshendelsen via et \texttt{interface}, som nok ville vært behov for uansett, men kanskje en helhetlig kommunikasjonsstruktur gjennom hele programmet ville vært lettere å jobbe med når en får ytterligere kompleksitet og utfordringer ettersom programmet utvikles. \\
+
