@@ -4,10 +4,10 @@ Enum for å identifisere identifisere instanser av klasser eller klassevariabel 
 Enum gir oss også mulighet til implementering av metoder direkte i enum klassen som kan foreta eventuelle beregniger på sine klassevariabler. 
 
 \subsection{RegexTester.java} \label{subsec:regextest}
-Denne klassen er satt sammen med hensikt å definere alle regext tester som foretas i programmet (oftest ved inhentning av data lagt inn fra bruker). 
+Klassen er satt sammen med hensikt å definere alle regext tester som foretas i programmet (oftest ved inhentning av data lagt inn fra bruker). 
 Klassen består av publike regex konstanter som kan etter behov hentes opp av metoder der man kun etterspør en streng med et regex mønster, f.eks \texttt{CustomJTextField}.
 Den andre delen av klassen består av boolean metoder som "<speiler"> alle regex streng konstanter og foretar et test på valgt regex kosntant og en mottatt tekststreng som parameter. 
-I eksempel \ref{kode:regex1} presenteres en regex streng som brukes til å kontrollere en gateadress. Adressen må begynne med en stor bokstav, kan være opp til tre ord i lengden, deretter må avsluttes med et nummer opp til tre tall som kan blir etterfølgt av blankt steg og en bokstav (for trappeoppgang).
+I eksempel \ref{kode:regex1} presenteres en regex streng som brukes til å kontrollere en gateadress. Adressen må begynne med en stor bokstav, kan være opp til tre ord i lengden, deretter må avsluttes med et nummer opp til tre tall som kan blir etterfølgt av blankt steg og en bokstav (f.eks. trappeoppgang).
 
 \begin{lstlisting}[caption=Regexstreng for gateadresse og husnummer.,label=kode:regex1]
 	public static final String GATE_ADRESSE = "^[A-ZÆØÅ]{1}[a-zæøå]{1,20}[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s]?[A-ZÆØÅ]?[a-zæøå]*[\\s][1-9]{1}[0-9]{0,2}?[\\s]?[A-ZÆØÅ]{0,1}$";
@@ -39,7 +39,7 @@ I eksempel \ref{kode:regex3} presenteres som "<speiler"> hver enkelregex string 
 
 
 \subsection{Konstanter.java} \label{subsec:konstanter}
-Klassen består av flere publike konstanter lagret som static variabler som er tilgjengelige for alle klasser i programmet. I eksempel \ref{kode:konst1} presenteres noen av de konstantene som er satt opp i klassen. Eksempel \ref{kode:konst1} viser et kort utdrag for å presentere strukturen som brukes gjennom hele klassen.
+Klassen består av flere publike konstanter lagret som static variabler som er tilgjengelige for alle klasser i programmet. I eksempel \ref{kode:konst1} presenteres noen av de konstantene som er satt opp i klassen som viser et kort utdrag for å presentere strukturen som brukes gjennom hele klassen.
 
 \begin{lstlisting}[caption=Noen av static kosntanter som brukes i Konstanter klassen., label=kode:konst1]
     /**
