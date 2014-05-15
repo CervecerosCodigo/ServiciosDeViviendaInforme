@@ -1,4 +1,4 @@
-\section{Datastruktur \emph{(Model)}} \label{sec:Datastruktur}
+\section{Datastruktur \texttt{(Model)}} \label{sec:Datastruktur}
 
 \subsection{Valg av datastruktur}
 Alle dataregistrene er laget på \texttt{HashSet} fra \texttt{Collection}-rammeverket til \texttt{Java}. Vi har brukt \texttt{HashSet} for å unngå dobbellagring av like objekter. Vi har "<overridet"> \texttt{equals} og \texttt{hashcode}-metodene for objektene slik at de bare relevante datafelter brukes for å identifisere hva som er et unikt objekt og ikke. For eksempel så er det autoinkrementerte ID-feltet som gir alle objekter en unik ID, utelatt fra \emph{equals} og \emph{hashcode} da alle objekter da ville bli oppfattt som unike objekter.
