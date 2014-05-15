@@ -64,7 +64,7 @@ Den ene knappen her har forskjellig funksjonalitet om man er i \texttt{annonseVi
 \texttt{Konstruktøren} til \texttt{KnappeLytteren} endrer navn på \texttt{MultiKnapp} som vi har valgt å kalle den. 
 I \texttt{actionPerformed}-metoden vil det testes for hvilket datasett som ligger i tabellen, hvilken rad som er valgt, og hvilket vindu man befinner seg i. Se følgende eksempel \ref{kode:contbpan}:
 
-\begin{lstlisting}[caption=Utdrag fra \texttt{actionPerformed}-metoden i \texttt{ControllerBunnPanel.java}, label=kode:contbpan]
+\begin{lstlisting}[caption={[\texttt{ControllerBunnPanel.java}]Utdrag fra \texttt{actionPerformed}-metoden i \texttt{ControllerBunnPanel.java}}, label=kode:contbpan]
     if (tabell.getModel() instanceof TabellModellAnnonse) {
         modellIBruk = (TabellModellAnnonse) modellIBruk;
         if (vindu instanceof ArkfaneMegler) {
@@ -91,10 +91,10 @@ Det måtte en del justering på plass, da en ikke kan automatisk skalere bilder,
 Denne \texttt{kontrolleren} er holder orden på alle data som skal vises i tabellen i \texttt{VenstrePanel.java} der tabellen ligger, samt funksjonalitet for å slette, endre og opprette nye objekter. \\
 Dette kapittelet vil ta for seg noen nøkkelpunkter på funksjonalitet og flyt av data.
 
-$\bullet$ Hvordan tabellen tar i mot data og settes opp \ref{sec:oppsettabell}, side \pageref{sec:oppsettabell} \\ 
-$\bullet$ Datamodellene, sortering og formatering \ref{sec:virkemåtetabell}, side \pageref{sec:virkemåtetabell} \\
-$\bullet$ PopupMeny-funksjonalitet \ref{sec:interaktivitettabell}, side \pageref{sec:interaktivitettabell} \\
-$\bullet$ Lytter på klikk i Output-vinduet \ref{sec:lyttetoutputvindu}, side \pageref{sec:lyttetoutputvindu}
+$\bullet$ Hvordan tabellen tar i mot data og settes opp, side \pageref{sec:oppsettabell} \\ 
+$\bullet$ Datamodellene, sortering og formatering, side \pageref{sec:virkemåtetabell} \\
+$\bullet$ PopupMeny-funksjonalitet, side \pageref{sec:interaktivitettabell} \\
+$\bullet$ Lytter på klikk i Output-vinduet, side \pageref{sec:interaktivitettabell}
 
 
 \subsubsection{Hvordan \texttt{kontrolleren} setter opp tabellen} \label{sec:oppsettabell}
@@ -344,7 +344,7 @@ Det vil si når man høyreklikker i tabellen så vil en popupmeny dukke frem. De
 
 Det første utdraget (eks. \ref{kode:eks1}) fra koden gjelder for hvilket menyvalg som er tilgjenglig når en høyreklikker på en boligobjekt og et personobjekt. 
 Det andre utdraget (eks. \ref{kode:eks2}) vil være fra metoden \texttt{settOpplyttereForTabellMenyITabell} som spesifiserer fuksjonaliteten til selve menyvalgene i pop-up menyen.
-\begin{lstlisting}[caption=Eksempel på hvilke menyvalg som dukker opp ved høyreklikk i tabellen.,label=kode:eks1]
+\begin{lstlisting}[caption=Menyvalg ved høyreklikk i tabellen.,label=kode:eks1]
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -375,7 +375,6 @@ Det andre utdraget (eks. \ref{kode:eks2}) vil være fra metoden \texttt{settOppl
 
 
 \begin{lstlisting}[caption=Funksjonaliteten til to av menyvalgene i pop-up menyen.,label=kode:eks2]
-
     public void settOpplyttereForPopupMenyITabell() {
 
         //Man ser bare dette valget om man høyreklikker på en utleier i tabellen
@@ -424,7 +423,7 @@ Det andre utdraget (eks. \ref{kode:eks2}) vil være fra metoden \texttt{settOppl
 Alle kontrollere for registrerings vinduer finnes i pakken \texttt{controller.register}. Samtlige av disse kontrollene arver \texttt{AbstractControllerRegister.java} (eksempel \ref{kode:contreg1}) som er superklasse til registerkontrollene. Superklassen brukes til å håndtere lesing og skrivning av objekter til alle \texttt{HashSet} som brukes i de kontrollene. Klassen gjør at koden for lesing og skriving blir arvet av hver enkel kontroller. Ettersom det brukes flere forskjellige \texttt{HashSet} i programmet er superklassen satt opp med generisk parametre og begrenset til \texttt{Collection.Set.HashSet<E>}. Superklassen består av to konstruktører, den første blir kalt opp med en mengde som parameter og brukes ved registrering av nytt objekt f.eks. ny bolig. Nødvendige parametre for opprettelse av objektet blir hentet opp fra \texttt{gui} gjennom en kontroller som arver den superklassen. Den andre konstruktøren tas i bruk dersom et boligobjekt skal editeres, derfor blir det sent med et set og et generelt objekt som blir sendt fra markeringen i tabellen. Slik løsning er valgt etterom \texttt{HashSet} ikke tillater duplikater, hvilket brukes som en automatisk mekanisme for å unngå dobbelregistrering av data i registrene. Dersom man skal gjennomføre endringer i et eksisterende objekt i settet, må det objektet plukkes ut fra mengde, slettes fra mengde, deretter kan datafelt oppdateres og legges tilbake i mengden. Derfor blir objektet som skal endres direkte sendt med til den andre konstruktøren i superklassen.
 
 
-\begin{lstlisting}[caption=\texttt{AbstractControllerRegister.java} kontroller arvet av alle regsitreringskontrollerene.,label=kode:contreg1]
+\begin{lstlisting}[caption={[\texttt{AbstractControllerRegister.java}]\texttt{AbstractControllerRegister.java} kontroller arvet av alle regsitreringskontrollerene.},label=kode:contreg1]
 public abstract class AbstractControllerRegister<E> {
 
     final HashSet<E> set;
@@ -459,7 +458,7 @@ Den andre konstruktøren som finnes med i klassen tar med set HashSet og et boli
 
 
 
-\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Oversikt over konstruktører i bolig registrering/endring kontrolleren., label=kode:boligregkont]
+\begin{lstlisting}[caption={[\texttt{ControllerRegistrerBolig.java}]\texttt{ControllerRegistrerBolig.java}: Oversikt over konstruktører i bolig registrering/endring kontrolleren.}, label=kode:boligregkont]
     /**
      * En kontruktør for registrering av en ny bolig.
      *
@@ -501,7 +500,7 @@ Den andre konstruktøren som finnes med i klassen tar med set HashSet og et boli
 
 
 
-\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Regex test av generelle tekstfelt for bolig.,label=kode:regex_bolig]
+\begin{lstlisting}[caption={[\texttt{ControllerRegistrerBolig.java}]\texttt{ControllerRegistrerBolig.java}: Regex test av generelle tekstfelt for bolig.},label=kode:regex_bolig]
     private boolean kontrollerDataBolig() {
     
         boolean[] boligOK = new boolean[7];
@@ -523,7 +522,7 @@ Den andre konstruktøren som finnes med i klassen tar med set HashSet og et boli
 \end{lstlisting}
 
 
-\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Sletting og oppdatering av samme bolig objekt via superklassen til kontrolleren.,label=kode:regex_bolig2]
+\begin{lstlisting}[caption={[\texttt{ControllerRegistrerBolig.java}]\texttt{ControllerRegistrerBolig.java}: Sletting og oppdatering av samme bolig objekt via superklassen til kontrolleren.},label=kode:regex_bolig2]
     private boolean slettBoligFraSet(Bolig bolig) {
 
         if (kontrollerDataForSletting(bolig)) {
@@ -548,7 +547,7 @@ Den andre konstruktøren som finnes med i klassen tar med set HashSet og et boli
 
 En viktig funksjon i alle kontrollene til registreringsvinduer er initialisering av lyttere i disse klasser. Eller registreingsvinduer har en metode som kan sette en \texttt{ActionListener} til vinduene som blir sendt fra en kontrollere klasse. Hver kontrollerklasse innholder en privat kontroller klasse \texttt{KnappeLytter} (implementerer ActionListener), se eksempel \ref{kode:regex_bolig3}. Den private klassen blir alltid instasiert fra konstruktøren til registringskontrollere og sendt som parameter til vinduklassen (etter MVC arkitektur prinsipper).
 
-\begin{lstlisting}[caption=\texttt{ControllerRegistrerBolig.java}: Uttdrag fra privat lytterklasse i kontrolleren.,label=kode:regex_bolig3]
+\begin{lstlisting}[caption={[\texttt{ControllerRegistrerBolig.java}]\texttt{ControllerRegistrerBolig.java}: Uttdrag fra privat lytterklasse i kontrolleren.},label=kode:regex_bolig3]
     private class KnappeLytter implements ActionListener {
 
         @Override
@@ -613,7 +612,7 @@ Målet er altså at i det øyeblikket et søk blir gjort i \texttt{ToppPanelet} 
 Vi har et \texttt{interface} som heter \texttt{ListListenerInterface.java} som har to metoder. Den ene metoden tar i mot en \texttt{ArrayList} og et \texttt{Enum}-objekt.
 \texttt{ControllerToppPanelAnnonse.java} har en metode som følgende (eks \ref{kode:snutt1}):
 
-\begin{lstlisting}[caption=\texttt{setListListener}-metoden fra \texttt{ControllerToppPanelAnnonse.java},label=kode:snutt1]
+\begin{lstlisting}[caption={[\texttt{ControllerToppPanelAnnonse.java}]\texttt{setListListener}-metoden fra \texttt{ControllerToppPanelAnnonse.java}},label=kode:snutt1]
     public void setListListener(ListListenerInterface listListener) {
         this.listListener = listListener;
     }
@@ -639,7 +638,7 @@ Metoden blir kalt opp allerede i \texttt{konstruktøren} til \texttt{MainControl
 \end{lstlisting}
 
 Foreløpig er det ikke en fungerende løsning. I \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java} så ligger følgende instruksjon helt til slutt:
-\begin{lstlisting}[caption=Utdrag fra \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java},label=kode:snutt3]
+\begin{lstlisting}[caption={[\texttt{ControllerToppPanelAnnonse.java}]Utdrag fra \texttt{sendSokeResultat}-metoden i \texttt{ControllerToppPanelAnnonse.java}},label=kode:snutt3]
 
             else if (listListener != null) {
                 listListener.listReady(sokeResultat, radioTypeValgt);

@@ -20,7 +20,7 @@ Dersom man i fremtiden ønsker å innkludere flere datafelt i klassene som skal 
 	}
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Implemntasjon av metode \texttt{toSearch() i klassen Person.java}, label=kode:mgs2]
+\begin{lstlisting}[caption={[\texttt{toSearch()}]Implemntasjon av metode \texttt{toSearch()} i klassen \texttt{Person.java}}, label=kode:mgs2]
 	@Override
     public String[] toSearch(){
         String[] searchFields = {
@@ -36,7 +36,7 @@ Dersom man i fremtiden ønsker å innkludere flere datafelt i klassene som skal 
 
 I eksempel \ref{kode:mgs3} presenteres selve intereringen over objektene i et generisk \texttt{HashSet} som implementerer interfacet \texttt{Searchable}. Metoden \texttt{searchForPattern()} tar inn generisk HashSet med begrensning for interface og en tekststreng som inneholder en søkeparameter. Den innkommende søkeparameteren blir renset på eventuelle blanksteg og satt til "<lowercase">. Hvis søkeparametern ikke er tom så itererer vi gjennom mengden som ble mottat via interface \texttt{Searchable}. For hver treff blir array med datafelt i form av String gjennomsøkt etter treff med metoden \texttt{contains(String s)}. 
 
-\begin{lstlisting}[caption=Iterasjon over generisk \texttt{HashSet} som implementerer interface \texttt{Searchable}, label=kode:mgs3]
+\begin{lstlisting}[caption={[Iterasjon med \texttt{Searchable}]Iterasjon over generisk \texttt{HashSet} som implementerer interface \texttt{Searchable}}, label=kode:mgs3]
     public ArrayList<T> searchForPattern(HashSet<? extends Searchable> liste, String pattern) {
 
         pattern = pattern.trim();
@@ -93,7 +93,7 @@ Selve interne filtreringsalgortimen foretar følgende trinn ved filtrering:
 
 I eksempel \ref{kode:filtrering2} presenteres den rekkefølge som foretas på intern filtrering. Metoden kaller opp flere interne metoder som foretar filtrering etter hver enkel parameter sendt fra kontrolleren. Eksempel \ref{kode:filtrering3} vises hvordan filtreringen foretas i en privat metode. I dette eksemplet blir data filtrert på \textit{min} og \textit{maks} pris. Filtrering i de øvrig private metodene blir foretatt på en relativt tilnærmet måte (henviser spesielt interesserte til å eventuelt betrakte løsningen i selve kildekoden til oppgaven, pakke \texttt{search}, fil \texttt{AnnonseFilter.java}). 
 
-\begin{lstlisting}[caption=AnnonseFilter.java: Filtreringsrekkefølge etter mottatte parametre, label=kode:filtrering2]
+\begin{lstlisting}[caption={[AnnonseFilter.java: Filtreringsrekkefølge]AnnonseFilter.java: Filtreringsrekkefølge etter mottatte parametre.}, label=kode:filtrering2]
 	public HashSet<Annonse> filtrerEtterParametre(String poststed, Boligtype boligtype, int prisMin, int prisMaks, int arealMin, int arealMaks, boolean harBalkong, boolean harFellesvask, boolean harHage, boolean harKjeller) {
         filtrerEtterPostSted(poststed);
         filtrerEtterBoligType(boligtype);
@@ -115,7 +115,7 @@ I eksempel \ref{kode:filtrering2} presenteres den rekkefølge som foretas på in
     	}
 \end{lstlisting}
     
-\begin{lstlisting}[caption=AnnonseFilter.java: Eksepel på privat filtreringsklasse etter bolig areal som foretas mellom trinn for pris og balkong., label=kode:filtrering3]
+\begin{lstlisting}[caption={[AnnonseFilter.java: privat filtreringsklasse]AnnonseFilter.java: Eksepel på privat filtreringsklasse etter bolig areal som foretas mellom trinn for pris og balkong.}, label=kode:filtrering3]
     private void filtrerEtterBoArealRange(int min, int maks) {
         if (min != 0 && maks != 0) {
             for (Annonse a : annonseListeFiltrert) {

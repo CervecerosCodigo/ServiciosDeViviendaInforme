@@ -36,7 +36,7 @@ Det er også testet med enum type som spesifiserer alle grunnleggende objekttype
 Det var dessverre ikke mulig å bruke enum-typer for å undersøke objektinstansen via \texttt{instanceof}. Den testen i eksempelet er åpenbart feil, og om man velger teste på "<Utleier"> så går det selvfølgelig fint, men da blir den ikke så generisk som ønskelig. Ønsket var å ha en metode som fungerer uansett hva man tester på, uten å måtte spesifisere manuelt hva den skal testes mot.
 
 
-\begin{lstlisting}[caption=Problem med å teste for objekttype (rad 6)., label=kode:objekttype]
+\begin{lstlisting}[caption={[Teste for objekttype]Problem med å teste for objekttype (rad 6).}, label=kode:objekttype]
     public ArrayList<T> searchForPatternIUtleier(HashSet<? extends Searchable> liste, String pattern, Object obj) {
         pattern = pattern.trim();
         pattern = pattern.toLowerCase();
