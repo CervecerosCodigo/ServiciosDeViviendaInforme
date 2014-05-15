@@ -8,7 +8,7 @@ Abstractpanel som arver \texttt{JPanel} er klassen som ligger til grunn til alle
 \item Setter bakgrunnfarge på panelet fra en global static konstant. Dette gjør at farve på all brukergrensesnitt i programmet enkelt kan endres.
 \item Sette en \texttt{titleBorder} rundt komponenten med tittel fra den innkomne parameter \texttt{tittel}. 
 \end{itemize}
-Dimensjonen settes ved å kalle opp metoden \texttt{setPrefferedSize(Dim dim)} som brukes ettersom slik tilnærming gjør at størrelse på panelet blir "<respektert"> av valgt layout manager (dette gjelder ikke alltid dersom \texttt{setSize()} brukes.
+Dimensjonen settes ved å kalle opp metoden \texttt{setPrefferedSize(Dim dim)} som brukes ettersom slik tilnærming gjør at størrelse på panelet blir "<respektert"> av valgt layout manager (dette gjelder ikke alltid dersom \texttt{setSize()} brukes).
 
 
 
@@ -17,7 +17,7 @@ Dimensjonen settes ved å kalle opp metoden \texttt{setPrefferedSize(Dim dim)} s
 MainPanel er klassen som arver AbstractPanel og setter opp både megler og annonse-panelet, se eksempel \ref{kode:main_panel}. Arv fra superklassen består av at man kaller opp en tom konstruktør i superklassen som setter opp bakgrunnfarve. Deretter blir det satt opp en enkel \texttt{GridLayout} som består av én celle. Det vil si den dekker hele vinduet. Det legge til en \texttt{JTabbedPane} som legger til panel for annonse og megler. Annonsepanelet og meglerpanelet er igjen to klasser det kommes tilbake til i de neste avsnittene. Klassen \texttt{MainPanel} blir initialisert fra \texttt{StartGUI.java} ved oppstart av programmet, der de ferdigopprettede \texttt{ArkfaneMegler.java} og \texttt{ArkfaneAnnonse.java} sendes med som parametere for å kunne legges inn i \texttt{JTabbedPane}.
 
 
-\begin{lstlisting}[caption=Kontruktør i \texttt{MainPanel.java}, label=kode:main_panel]
+\begin{lstlisting}[caption=Kontruktør i \texttt{MainPanel.java},label=kode:main_panel]
     public MainPanel(AbstraktArkfane megler, AbstraktArkfane annonse){
         setLayout( new GridLayout( 1, 1)) ;
         this.megler = (JPanel) megler;
@@ -41,9 +41,9 @@ MainPanel er klassen som arver AbstractPanel og setter opp både megler og annon
 
 
 \subsection{\texttt{AbstraktArkfane.java}}
-\texttt{AbstractArkfane.java} arver \texttt{AbstractPanel.java}. Klassene som arver \texttt{AbstracrArkfane.java} får et oppsett av paneler. Hvilket oppsett av paneler som blir opprettet er avhengig av hvilken parameter som blir sendt inn i konstruktøren. Se eksempel \ref{kode:arkfane}. Hvilken type av arkfane som skal bli opprettet bestemmes a strengparameteren som blir sendt inn til konstruktøren. Klassen arves av to klasser: \texttt{ArkfaneMegler.java} og \texttt{ArkfaneAnnonse.java}, som utgjør de to arkfanene i programmet. 
+\texttt{AbstractArkfane.java} arver \texttt{AbstractPanel.java}. Klassene som arver \texttt{AbstracrArkfane.java} får et oppsett av paneler. Hvilket oppsett av paneler som blir opprettet er avhengig av hvilken parameter som blir sendt inn i konstruktøren, se eksempel \ref{kode:arkfane}. Hvilken type av arkfane som skal bli opprettet bestemmes a strengparameteren som blir sendt inn til konstruktøren. Klassen arves av to klasser: \texttt{ArkfaneMegler.java} og \texttt{ArkfaneAnnonse.java}, som utgjør de to arkfanene i programmet. 
 
-\begin{lstlisting}[caption=Konstruktør til \texttt{AbstraktArkfane}. label=kode:arkfane]
+\begin{lstlisting}[caption=Konstruktør til \texttt{AbstraktArkfane}.,label=kode:arkfane]
     public AbstraktArkfane(String valgtToppanel) {
         setLayout(new BorderLayout());
         setVisible(true);
@@ -86,7 +86,7 @@ Som vi kan se i koden, AbstraktArkfane setter opp komponenter som inngår i de t
 
 
 \subsection{\texttt{TopPanelMegler.java}} \label{subsec:meglerpanel}
-Toppanelet i meglervinduet (figur \ref{fig:megler_panel}) er kontrollert fra \texttt{ControllerToppPanelMegler.java}, komponentene i det toppanelet blir aktivert og deaktivert avhengig av hvilket register eller funksjon brukeren har valgt. Eksempel på dette er når brukeren første gang etter programstart går inn til panelet, da vil søkefeltet være deaktivert frem til riktig radioknapp velges for det register som man ønsker å søke i. Liknende funksjonalitet er lagt inn dersom man f.eks. ønsker å registrere en ny bolig. En bolig kan kun registreres på en "<person"> som i dette tilfelle kan være en eier eller en representant. For at man ikke skal ha mulighet til å registrere en bolig uten en eier er det allerede sperret på GUI slik at brukeren må markere en allerede registrert eier i utleierlisten og deretter klikke på \texttt{Ny bolig}-knappen. Så lenge ingen person er markert i tabellen vil knappen forbli deaktivert. Tilsvarende den funksjonaliteten er det lagt til liknende begrensninger for opprettelse av en ny annonse, da det må markeres et boligobjekt i tabellen for å få lov å opprette en ny annonse. For å opprette en nytt kontrakt må det ha ankommet en forespørsel/søknad til megleren, som først markerer forespørselen for hvilken kontrakt skal opprettes. 
+Toppanelet i meglervinduet (figur \ref{fig:megler_panel}) er kontrollert fra \texttt{ControllerToppPanelMegler.java}, komponentene i det toppanelet blir aktivert og deaktivert avhengig av hvilket register eller funksjon brukeren har valgt. Eksempel på dette er når brukeren første gang etter programstart går inn til panelet, da vil søkefeltet være deaktivert frem til riktig radioknapp velges for det register som man ønsker å søke i. Liknende funksjonalitet er lagt inn dersom man f.eks. ønsker å registrere en ny bolig. En bolig kan kun registreres på en "<person"> som i dette tilfelle kan være en eier eller en representant. For at man ikke skal ha mulighet til å registrere en bolig uten en eier er det allerede sperret på GUI slik at brukeren må markere en allerede registrert eier i utleierlisten og deretter klikke på "<\texttt{Ny bolig}">-knappen. Så lenge ingen person er markert i tabellen vil knappen forbli deaktivert. Tilsvarende den funksjonaliteten er det lagt til liknende begrensninger for opprettelse av en ny annonse, da det må markeres et boligobjekt i tabellen for å få lov å opprette en ny annonse. For å opprette en nytt kontrakt må det ha ankommet en forespørsel/søknad til megleren, som først markerer forespørselen for hvilken kontrakt skal opprettes. 
 
 \begin{figure}[ht]
  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{./img/produktdokumentasjon/swing_componenter/megler_panel.png}
@@ -182,7 +182,7 @@ public class CustomJButton extends JButton {
 
 \subsection{\texttt{ComboDatoVelger.java}}
 Datovelger implementerer \texttt{CustomSubPanel} men hjelp av en egen layout manager. Klassen brukes med for å implementere en datovelger som skal gjøre det mulig for å velge riktig dato uten å bruke regex hvilket i sin tur skal oppleves enklere for brukeren. Komponentene består av tre \texttt{JComboBox} som brukes for valg av år, måned og deretter dag. Velgeren er utstyrt med en egen lytter som setter riktig antall dager i den siste listen etter at brukeren har valgt år og måned (se figur \ref{fig:combo_datovelger}).
-Klassen kan returnere valgt data som \texttt{int} fordelt per år, måned og dag eller et \texttt{Calender}-objekt dersom så ønskes. Dato kan også blir satt gjennom å kalle opp metoden \texttt{setDato(int ar,int mnd, int dag)} som  er en funksjon som brukes ved f.eks editering av de registrerte boligene. 
+Klassen kan returnere valgt data som \texttt{int} fordelt per år, måned og dag eller et \texttt{Calender}-objekt dersom så ønskes. Dato kan også blir satt gjennom å kalle opp metoden \texttt{setDato(int ar, int mnd, int dag)} som  er en funksjon som brukes ved f.eks editering av de registrerte boligene. 
 
 
 \begin{figure}[ht]
