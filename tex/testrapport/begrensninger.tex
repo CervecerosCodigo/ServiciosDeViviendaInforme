@@ -1,8 +1,0 @@
-\section{Begrensninger}
-
-\subsection{Søk} \label{subsec:begrensinger:sok}
-Søkeklassen for megler (avsnitt \ref{subsec:sok:megler}, side \pageref{subsec:sok:megler}) fungerer meget bra på de datamengder som programmet er testet på. På sikt burde det gjennomføres en rekke forbedringer i søket. Foreløpig itererer søket gjennom hele datasettet, selv om den skal returnere et tom søk. Søket er også alt for generelt, det medfører at søket resulterer alt for mange treff. For eksempel det er fullt mulig å søker med en enkel bokstav, hvis brukeren skriver "<a"> i søkefeltet blir alle objekter som inneholder den bokstaven i sine datafelt returnert. Eventuelle forbedringer som kan legges til kan være at brukeren kan spesifisere enkelte datafelt som man ønsker å søke i, i tillegg til ønsket register. For eksempel dersom man ønsker å søke i personregister på alle som har fornavn Ola, kan brukeren skrive søket med følgende "<syntaks">: \texttt{fornavn:Ola}. Slik søk vil da begrense søket til de spesifikke datafeltet.
-
-\subsection{Generell brukeropplevelse}
-Normalt sett vil et program ha mer funksjonalitet for sluttbruker enn det dette prosjektet tilbyr. Mangel av tid er hovedgrunnen til det, men også at vi ikke hadde et sterkere fokus på det spesifikke en sluttbruker ofte ønsker å få gjort helt fra starten.
-Det var for så vidt et valg vi bevisst tok, om å fokusere på det tekniske, men skulle vi begynt på nytt er det klart at toppanel for både megler og annonse-visning ville sett litt annerledes ut. Programmet burde også kunne kjøres i "fullskjermvisning", noe vi valgte å ikke tillate da forskjellige skjermoppløsninger ville ødelegge layout for både tabell og visningsområde for objektene.
